@@ -1,0 +1,112 @@
+@import '../../style/color.less';
+
+.layout {
+    position: relative;
+    height: 100vh;
+    background-color: @bg;
+}
+
+.nav-side {
+    position: absolute;
+    object-position: 0;
+    left: 0;
+    width: 200px;
+    height: 100%;
+    padding-top: 200px;
+    border-right: 1px solid @b0;
+    background-color: @bg1;
+    .iconfont.calendar:after {
+        content: '\ea2e';
+    }
+    .iconfont.plans:after {
+        content: '\e63a';
+    }
+    .iconfont.stats:after {
+        content: '\e8de';
+    }
+    .nav-tab {
+        position: relative;
+        height: 48px;
+        line-height: 48px;
+        font-size: 16px;
+        padding: 0 36px;
+        &.active {
+            &:after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 4px;
+                height: 100%;
+                border-radius: 2px;
+                background-color: @main;
+            }
+            color: @main;
+            background-color: @main-bkg;
+        }
+        i {
+            margin-right: 12px;
+        }
+    }
+}
+
+header {
+    display: flex;
+    height: 50px;
+    line-height: 50px;
+    border-bottom: 1px solid @b0;
+    color: @f1;
+    background-color: @bg0;
+    .drag-bar {
+        flex: 1;
+        -webkit-app-region: drag;
+    }
+    .notification {
+        width: 32px;
+        margin-right: 12px;
+        text-align: center;
+        cursor: pointer;
+        &:after {
+            content: '\f27a';
+            font-family: "iconfont";
+            font-size: 20px;
+        }
+    }
+    .user-info {
+        position: relative;
+        padding: 0 18px;
+        &:after {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 18px;
+            height: 16px;
+            width: 1px;
+            background-color: @b1;
+        }
+        .capital {
+            display: inline-block;
+            vertical-align: middle;
+            height: 32px;
+            width: 32px;
+            line-height: 32px;
+            margin-right: 12px;
+            border-radius: 100%;
+            font-size: 20px;
+            text-align: center;
+            color: @f4;
+            background-color: @neon;
+        }
+    }
+}
+
+.layout-main {
+    display: flex;
+    flex-flow: column;
+    height: 100%;
+    padding-left: 200px;
+    &-content {
+        flex: 1;
+        overflow-x: hidden;
+    }
+}

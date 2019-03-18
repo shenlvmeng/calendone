@@ -1,0 +1,116 @@
+@import '../../style/color.less';
+
+.calendone {
+    padding: 40px 32px;
+    h1 {
+        margin-bottom: 30px;
+    }
+    .current-month {
+        margin-bottom: 22px;
+        text-align: center;
+        font-size: 18px;
+        .prev, .next, .fast-prev, .fast-next {
+            display: inline-block;
+            vertical-align: top;
+            width: 18px;
+            height: 18px;
+            padding-top: 6px;
+            font-family: 'iconfont';
+            font-size: 12px;
+            color: @f1;
+            cursor: pointer;
+            &:hover {
+                color: @main;
+            }
+        }
+        .prev {
+            margin-right: 24px;
+            &:after {
+                content: '\e617';
+            }
+        }
+        .next {
+            margin-left: 24px;
+            &:after {
+                content: '\e638';
+            }
+        }
+        .fast-prev {
+            margin-right: 12px;
+            &:after {
+                content: '\e6ca';
+            }
+        }
+        .fast-next {
+            margin-left: 12px;
+            &:after {
+                content: '\e68e';
+            }
+        }
+    }
+    .calendar-head {
+        height: 40px;
+        line-height: 40px;
+        border-radius: 4px 4px 0 0;
+        background-color: @bg2;
+    }
+    .week-day {
+        display: inline-block;
+        vertical-align: top;
+        width: 14.285%;
+        text-align: center;
+        font-weight: bold;
+        &.weekend {
+            color: @f1;
+        }
+    }
+    table {
+        width: 100%;
+        border-radius: 0 0 4px 4px;
+        border-collapse: collapse;
+        overflow: hidden;
+    }
+    tr {
+        width: 100%;
+    }
+    td {
+        position: relative;
+        width: 14.285%;
+        height: 100px;
+        padding-top: 8px;
+        border: 1px solid @b0;
+        transition: background-color .4s;
+        cursor: pointer;
+        &:not(.disabled):hover {
+            background-color: @main-bkg;
+        }
+        .date-header {
+            height: 20px;
+            padding: 0 8px;
+            text-align: right;
+            .now {
+                position: relative;
+                top: -4px;
+                display: inline-block;
+                width: 24px;
+                height: 24px;
+                padding: 2px;
+                border-radius: 100%;
+                line-height: 22px;
+                text-align: center;
+                color: @f4;
+                background-color: @red-dot;
+            }
+        }
+        .date-events {
+            height: 80px;
+        }
+        &.not-same-month .date-header {
+            color: @f2;
+        }
+        &.disabled {
+            background-color: @bg0;
+            cursor: not-allowed;
+        }
+    }
+}
