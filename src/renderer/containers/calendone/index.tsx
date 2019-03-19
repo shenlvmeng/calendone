@@ -13,12 +13,13 @@ import DayDetail from "./day";
 import "./index.less";
 
 export interface IDate {
+    year: number;
     month: number;
     date: number;
     timestamp: number;
 }
 
-interface IDayEvent extends IDate, IDay {}
+export interface IDayEvent extends IDate, IDay {}
 
 interface IState {
     days: (IDayEvent | IDate)[];
@@ -33,6 +34,7 @@ function generatePaddedMonth(start: moment.Moment, end: moment.Moment) {
     while (true) {
         dates.push({
             timestamp: +start,
+            year: start.year(),
             month: start.month(),
             date: start.date()
         });
@@ -166,27 +168,39 @@ class Calendone extends Layout<IState> {
     }
 
     private handlePrevMonth = () => {
-        this.setState(prevState => ({
-            now: prevState.now.subtract(1, "months")
-        }));
+        this.setState(
+            prevState => ({
+                now: prevState.now.subtract(1, "months")
+            }),
+            () => this.getCurrentEvents()
+        );
     };
 
     private handleNextMonth = () => {
-        this.setState(prevState => ({
-            now: prevState.now.add(1, "months")
-        }));
+        this.setState(
+            prevState => ({
+                now: prevState.now.add(1, "months")
+            }),
+            () => this.getCurrentEvents()
+        );
     };
 
     private handlePrevYear = () => {
-        this.setState(prevState => ({
-            now: prevState.now.subtract(1, "years")
-        }));
+        this.setState(
+            prevState => ({
+                now: prevState.now.subtract(1, "years")
+            }),
+            () => this.getCurrentEvents()
+        );
     };
 
     private handleNextYear = () => {
-        this.setState(prevState => ({
-            now: prevState.now.add(1, "years")
-        }));
+        this.setState(
+            prevState => ({
+                now: prevState.now.add(1, "years")
+            }),
+            () => this.getCurrentEvents()
+        );
     };
 
     private handleDayClick = (e: React.MouseEvent<HTMLDivElement>) => {

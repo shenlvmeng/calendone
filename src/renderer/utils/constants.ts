@@ -12,7 +12,8 @@ export const planStage = {
 
 export const trackStage = planStage;
 
-export const mood = {
+export const moods = {
+    0: "❓",
     1: "😄",
     2: "😒",
     3: "😐",
