@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import { getTrackEvents } from "@/services/calendone";
+import { getTrackEvents, addTrackEvent } from "@/services/calendone";
 import RadioGroup from "@/components/radio";
 import Select, { Option } from "@/components/select";
 import Button from "@/components/button";
@@ -8,7 +8,7 @@ import Button from "@/components/button";
 interface IProps {
     onFinish: (
         event: {
-            content: string;
+            content?: string;
             isTracking: boolean;
             trackId?: string;
         }
@@ -18,6 +18,7 @@ interface IProps {
 interface IState {
     step: number;
     content: string;
+    trackContent: string;
     isTracking: boolean;
     trackId: string;
     fromExist: boolean;
@@ -31,20 +32,20 @@ class NewEvent extends Component<IProps, IState> {
     public readonly state: IState = {
         step: 0,
         content: "",
+        trackContent: "",
         isTracking: false,
         trackId: "",
         fromExist: true,
         existTrackEvents: []
     };
 
-    public componentDidMount() {
-        getTrackEvents(true, trackEvents => {
-            this.setState({
-                existTrackEvents: trackEvents.map(event => ({
-                    id: `${event.id}`,
-                    name: event.name
-                }))
-            });
+    public async componentDidMount() {
+        const trackEvents = await getTrackEvents(true);
+        this.setState({
+            existTrackEvents: trackEvents.map(event => ({
+                id: `${event.id}`,
+                name: event.name
+            }))
         });
     }
 
@@ -66,14 +67,20 @@ class NewEvent extends Component<IProps, IState> {
     }
 
     public renderStep1() {
-        if (!this.state.isTracking) {
+        const { isTracking, step, content } = this.state;
+        if (!isTracking) {
             return (
-                <div className="new-event-step" style={{ width: `${100 / (this.state.step + 1)}%` }}>
+                <div className="new-event-step" style={{ width: `${100 / (step + 1)}%` }}>
                     <h3>发生了什么？</h3>
-                    <input type="text" maxLength={20} onChange={this.handleContentChange} />
+                    <input
+                        type="text"
+                        placeholder="输入20字以内的简介"
+                        maxLength={20}
+                        onChange={this.handleContentChange}
+                    />
                     <div className="shift-btns">
                         <Button onClick={this.handlePrev}>上一步</Button>
-                        <Button type="info" onClick={this.handleConfirm}>
+                        <Button type="info" onClick={this.handleNew} disabled={!content}>
                             添 加
                         </Button>
                     </div>
@@ -98,21 +105,27 @@ class NewEvent extends Component<IProps, IState> {
     }
 
     public renderStep2() {
-        const { step, fromExist, existTrackEvents } = this.state;
+        const { step, fromExist, existTrackEvents, content, trackId } = this.state;
         if (fromExist) {
             return (
                 <div className="new-event-step" style={{ width: `${100 / (step + 1)}%` }}>
                     <h3>发生了什么？</h3>
-                    <Select onChange={this.handleTrackId} style={{ maxWidth: 300 }}>
+                    <Select onChange={this.handleTrackId} style={{ maxWidth: 320 }}>
                         {existTrackEvents.map((event, index) => (
                             <Option value={event.id} key={index}>
                                 {event.name}
                             </Option>
                         ))}
                     </Select>
+                    <input
+                        type="text"
+                        placeholder="今天有什么进展?"
+                        maxLength={20}
+                        onChange={this.handleTrackContentChange}
+                    />
                     <div className="shift-btns">
                         <Button onClick={this.handlePrev}>上一步</Button>
-                        <Button type="info" onClick={this.handleConfirm}>
+                        <Button type="info" onClick={this.handleConfirm} disabled={!trackId}>
                             添 加
                         </Button>
                     </div>
@@ -122,10 +135,15 @@ class NewEvent extends Component<IProps, IState> {
         return (
             <div className="new-event-step" style={{ width: `${100 / (step + 1)}%` }}>
                 <h3>发生了什么？</h3>
-                <input type="text" maxLength={20} onChange={this.handleContentChange} />
+                <input
+                    type="text"
+                    placeholder="输入20字以内的简介"
+                    maxLength={20}
+                    onChange={this.handleContentChange}
+                />
                 <div className="shift-btns">
                     <Button onClick={this.handlePrev}>上一步</Button>
-                    <Button type="info" onClick={this.handleConfirm}>
+                    <Button type="info" onClick={this.handleNew} disabled={!content}>
                         添 加
                     </Button>
                 </div>
@@ -166,6 +184,12 @@ class NewEvent extends Component<IProps, IState> {
         });
     };
 
+    private handleTrackContentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        this.setState({
+            trackContent: e.currentTarget.value.trim()
+        });
+    };
+
     private handleTrackId = (value: string) => {
         this.setState({ trackId: value });
     };
@@ -182,8 +206,34 @@ class NewEvent extends Component<IProps, IState> {
         }));
     };
 
+    private handleNew = async () => {
+        const { content, isTracking } = this.state;
+        if (!content) {
+            return;
+        }
+        if (isTracking) {
+            const id = await addTrackEvent(content);
+            this.props.onFinish({
+                isTracking: true,
+                trackId: `${id}`
+            });
+        } else {
+            this.props.onFinish({
+                content,
+                isTracking: false
+            });
+        }
+    };
+
     private handleConfirm = () => {
-        // TODO
+        const { trackId, trackContent } = this.state;
+        if (trackId) {
+            this.props.onFinish({
+                trackId,
+                isTracking: true,
+                content: trackContent
+            });
+        }
     };
 }
 

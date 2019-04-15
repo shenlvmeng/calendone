@@ -7,10 +7,10 @@ import "./index.less";
 
 interface IProps {
     defaultValue?: string;
-    onChange: (value: string) => void;
     style?: {
         [key: string]: number | string;
     };
+    onChange: (value: string) => void;
 }
 
 interface IState {

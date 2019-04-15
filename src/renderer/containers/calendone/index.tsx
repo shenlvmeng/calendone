@@ -78,21 +78,20 @@ class Calendone extends Layout<IState> {
         ];
     }
 
-    public getCurrentEvents() {
+    public async getCurrentEvents() {
         const [monthStart, monthEnd] = this.getCurrentBound();
-        getEventsBetween(+monthStart, +monthEnd, days => {
-            this.setState({
-                days: generatePaddedMonth(monthStart, monthEnd).map(date => {
-                    const currDay = find(days, day => +day.date === date.timestamp);
-                    if (currDay) {
-                        return {
-                            ...date,
-                            ...currDay
-                        };
-                    }
-                    return date;
-                })
-            });
+        const days = await getEventsBetween(+monthStart, +monthEnd);
+        this.setState({
+            days: generatePaddedMonth(monthStart, monthEnd).map(date => {
+                const currDay = find(days, day => +day.date === date.timestamp);
+                if (currDay) {
+                    return {
+                        ...date,
+                        ...currDay
+                    };
+                }
+                return date;
+            })
         });
     }
 

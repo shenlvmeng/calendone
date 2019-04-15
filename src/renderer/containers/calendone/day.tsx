@@ -126,7 +126,7 @@ class Day extends Component<IProps, IState> {
     };
 
     private handleAddEvent = (event: { content: string; isTracking: boolean; trackId?: string }) => {
-        // TODO
+        console.log(event);
     };
 }
 

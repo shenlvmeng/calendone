@@ -180,12 +180,15 @@
     overflow: hidden;
     input {
         .common-input;
-        max-width: 400px;
+        max-width: 320px;
         &:focus {
             border-color: @info;
             outline: none;
             box-shadow: 0 0 0 2px rgba(81, 216, 147, 0.3);
         }
+        &::placeholder {
+            color: @f3;
+        };
     }
     .new-event-steps {
         position: absolute;
@@ -201,11 +204,14 @@
         vertical-align: top;
         padding: 20px 8px;
         h3 {
-            margin-bottom: 12px;
+            margin-bottom: 24px;
             line-height: 2;
             font-size: 20px;
             font-weight: 300;
             color: @f1;
+        }
+        .calendone-select {
+            margin-bottom: 12px;
         }
         .radio-group .radio-item {
             display: block;
@@ -217,7 +223,7 @@
             }
         }
         .shift-btns {
-            margin-top: 20px;
+            margin-top: 36px;
             button {
                 margin: 0 8px;
             }
