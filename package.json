@@ -3,7 +3,7 @@
     "productName": "Calendone",
     "version": "0.1.0",
     "description": "A calendar app for your daily record and objective management.",
-    "main": "out/main.js",
+    "main": "index.js",
     "license": "MIT",
     "private": true,
     "author": {
@@ -53,7 +53,7 @@
         "build-renderer": "webpack --config config/webpack.renderer.config.js",
         "build": "cross-env NODE_ENV=production yarn build-main && yarn build-renderer",
         "format": "prettier --write **/*.ts && tslint -p . --fix",
-        "dev": "cross-env NODE_ENV=development yarn build-main && (yarn dev-server | electron ./dist/)",
+        "dev": "cross-env NODE_ENV=development yarn build-main && (yarn dev-server | electron ./dist/main)",
         "dev-server": "cross-env NODE_ENV=development webpack-dev-server --mode=development --config config/dev/webpack.renderer.config --hot --inline",
         "pack": "electron-builder --dir",
         "dist": "electron-builder --mac --win --linux --ia32 --x64",

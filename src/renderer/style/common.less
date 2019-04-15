@@ -1,15 +1,15 @@
 @import './color.less';
 
-@main-font-family: "Museo", "PingFang SC", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", "WenQuanYi Micro Hei", Helvetica, Tahoma, Arial;
+@main-font-family: "Museo", BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
 
 @font-face {
     font-family: 'iconfont';  /* project id 1088790 */
-    src: url('//at.alicdn.com/t/font_1088790_gv233pkupxj.eot');
-    src: url('//at.alicdn.com/t/font_1088790_gv233pkupxj.eot?#iefix') format('embedded-opentype'),
-        url('//at.alicdn.com/t/font_1088790_gv233pkupxj.woff2') format('woff2'),
-        url('//at.alicdn.com/t/font_1088790_gv233pkupxj.woff') format('woff'),
-        url('//at.alicdn.com/t/font_1088790_gv233pkupxj.ttf') format('truetype'),
-        url('//at.alicdn.com/t/font_1088790_gv233pkupxj.svg#iconfont') format('svg');
+    src: url('//at.alicdn.com/t/font_1088790_m8m9l5hg63m.eot');
+    src: url('//at.alicdn.com/t/font_1088790_m8m9l5hg63m.eot?#iefix') format('embedded-opentype'),
+        url('//at.alicdn.com/t/font_1088790_m8m9l5hg63m.woff2') format('woff2'),
+        url('//at.alicdn.com/t/font_1088790_m8m9l5hg63m.woff') format('woff'),
+        url('//at.alicdn.com/t/font_1088790_m8m9l5hg63m.ttf') format('truetype'),
+        url('//at.alicdn.com/t/font_1088790_m8m9l5hg63m.svg#iconfont') format('svg');
 }
 @font-face {
     font-family: "Museo";
@@ -81,4 +81,19 @@ button {
 
 #root {
     color: @f0;
+}
+
+.common-input() {
+    display: inline-block;
+    width: 100%;
+    padding: 4px 10px;
+    border: 1px solid @b1;
+    border-radius: 4px;
+    height: 32px;
+    font-size: 14px;
+    line-height: 1.5;
+    font-variant: tabular-nums;
+    color: @f0;
+    background-color: @bg;
+    transition: all 0.4s;
 }

@@ -1,0 +1,38 @@
+@import '../../style/color.less';
+
+.calendone-button {
+    display: inline-block;
+    padding: 6px 10px;
+    min-width: 64px;
+    border: 1px solid @b1;
+    border-radius: 4px;
+    font-size: 14px;
+    text-align: center;
+    color: @f0;
+    background-color: @bg0;
+    outline: none;
+    transition: opacity 0.4s;
+    &.primary, &.warn, &.info, &.danger {
+        border: none;
+        color: @f4;
+    }
+    &.primary {
+        background-color: @main;
+    }
+    &.info {
+        background-color: @info;
+    }
+    &.warn {
+        background-color: @warn;
+    }
+    &.danger {
+        background-color: @red-dot;
+    }
+    &:hover {
+        opacity: 0.4;
+    }
+    &:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+    }
+}

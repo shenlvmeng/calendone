@@ -2,6 +2,10 @@
 
 .calendone {
     padding: 40px 32px;
+    ::selection {
+        color: @f4;
+        background-color: @main;
+    }
     h1 {
         margin-bottom: 30px;
     }
@@ -112,25 +116,5 @@
             background-color: @bg0;
             cursor: not-allowed;
         }
-    }
-}
-
-.day-detail {
-    padding: 40px;
-    h2 {
-        text-align: center;
-        font-size: 28px;
-    }
-    .day-mood {
-        font-size: 14px;
-        text-align: center;
-        color: @f1;
-    }
-    .mood-selector {
-        bottom: -3px;
-    }
-    .day-events {
-        margin: 20px 0;
-        height: 300px;
     }
 }

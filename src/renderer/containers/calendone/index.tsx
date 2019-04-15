@@ -7,7 +7,8 @@ import Drawer from "rc-drawer";
 import "rc-drawer/assets/index.css";
 
 import Layout from "../layout";
-import Db, { IDay } from "@/utils/db";
+import { getEventsBetween } from "@/services/calendone";
+import { IDay } from "@/utils/db";
 import { noop } from "@/utils";
 import DayDetail from "./day";
 import "./index.less";
@@ -77,25 +78,22 @@ class Calendone extends Layout<IState> {
         ];
     }
 
-    public async getCurrentEvents() {
+    public getCurrentEvents() {
         const [monthStart, monthEnd] = this.getCurrentBound();
-        await Db.calendar
-            .where("date")
-            .between(+monthStart, +monthEnd, true, true)
-            .sortBy("date", days => {
-                this.setState({
-                    days: generatePaddedMonth(monthStart, monthEnd).map(date => {
-                        const currDay = find(days, day => +day.date === date.timestamp);
-                        if (currDay) {
-                            return {
-                                ...date,
-                                ...currDay
-                            };
-                        }
-                        return date;
-                    })
-                });
+        getEventsBetween(+monthStart, +monthEnd, days => {
+            this.setState({
+                days: generatePaddedMonth(monthStart, monthEnd).map(date => {
+                    const currDay = find(days, day => +day.date === date.timestamp);
+                    if (currDay) {
+                        return {
+                            ...date,
+                            ...currDay
+                        };
+                    }
+                    return date;
+                })
             });
+        });
     }
 
     public renderMain() {
@@ -161,7 +159,7 @@ class Calendone extends Layout<IState> {
                     placement="right"
                     onMaskClick={this.handleCloseDrawer}
                 >
-                    <DayDetail info={currIndex >= 0 ? days[currIndex] : null} />
+                    <DayDetail info={currIndex >= 0 ? days[currIndex] : null} onClose={this.handleCloseDrawer} />
                 </Drawer>
             </div>
         );

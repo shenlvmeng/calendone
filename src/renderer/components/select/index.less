@@ -1,23 +1,21 @@
 @import '../../style/color.less';
 
-.mood-selector {
+.calendone-select {
     position: relative;
     display: inline-block;
-    width: 60px;
-    font-size: 18px;
-    line-height: 28px;
+    height: 32px;
+    width: 100%;
+    padding: 0 18px 0 6px;
+    font-size: 14px;
+    line-height: 32px;
     border: 1px solid @b1;
     border-radius: 4px;
-    z-index: 10;
+    text-align: left;
     transition: border-color 0.4s;
     cursor: pointer;
     outline: none;
-    &:not(.active):not(:hover) {
-        width: auto;
-        border-color: @bg;
-        &:after {
-            display: none;
-        }
+    &:hover {
+        border-color: @info;
     }
     &.active {
         border-color: @info;
@@ -31,6 +29,9 @@
         }
     }
     &:after {
+        position: absolute;
+        top: 0;
+        right: 4px;
         content: '\e785';
         font-family: 'iconfont';
         display: inline-block;
@@ -38,26 +39,28 @@
         margin-left: 4px;
         transition: transform 0.4s;
     }
+    .current-value {
+        height: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
     ul {
         position: absolute;
-        left: -18px;
-        width: 98px;
+        left: 0;
+        top: 100%;
+        width: 100%;
         margin-top: 4px;
-        border: 1px solid @b1;
+        padding: 2px 0;
         border-radius: 4px;
-        overflow: hidden;
         opacity: 0;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.15);
         transform-origin: top;
         transform: scaleY(0);
         transition: transform 0.2s cubic-bezier(0.215, 0.61, 0.355, 1), opacity 0.2s cubic-bezier(0.215, 0.61, 0.355, 1);
     }
     li {
-        display: inline-block;
-        vertical-align: top;
-        width: 32px;
-        height: 32px;
-        padding: 4px 2px 4px 6px;
-        text-align: center;
+        line-height: 32px;
+        padding: 0 6px;
         background-color: @bg0;
         transition: background-color 0.4s;
         cursor: pointer;

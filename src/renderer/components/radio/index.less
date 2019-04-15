@@ -1,0 +1,47 @@
+@import '../../style/color.less';
+
+.radio-group {
+    .radio-item {
+        display: inline-block;
+        vertical-align: middle;
+        &:not(:last-child) {
+            margin-right: 12px;
+        }
+        input[type="radio"] {
+            display: none;
+        }
+        .radio-checkbox {
+            display: inline-block;
+            vertical-align: middle;
+            width: 16px;
+            height: 16px;
+            margin: -2px 6px 0 0;
+            padding: 3px;
+            border: 1px solid @b1;
+            border-radius: 100%;
+            line-height: 8px;
+            transition: border-color;
+            &:hover {
+                border-color: @info;
+            }
+            &:after {
+                content: '';
+                display: inline-block;
+                width: 8px;
+                height: 8px;
+                border-radius: 100%;
+                background-color: @info;
+                transition: transform 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
+                transform: scale(0);
+                transform-origin: 50% 50%;
+            }
+            &.active {
+                border-color: @info;
+                box-shadow: 0 0 0 2px rgba(81, 216, 147, 0.3);
+                &:after {
+                    transform: scale(1);
+                }
+            }
+        }
+    }
+}

@@ -17,7 +17,7 @@ const enum PlanStage {
     Abandon = 3
 }
 
-const enum EventPeriod {
+export const enum EventPeriod {
     Unknown = 0,
     AllDay = 1,
     Morning = 2,
@@ -25,7 +25,7 @@ const enum EventPeriod {
     Night = 4
 }
 
-const enum EventType {
+export const enum EventType {
     Unknown = 0,
     Normal = 1,
     Tracking = 2
@@ -74,8 +74,9 @@ export interface IDay {
     events: IEvent[];
 }
 
-interface ITrackEvent {
+export interface ITrackEvent {
     id?: number;
+    name: string;
     start_time: number;
     end_time: number;
     stage: TrackStage;
