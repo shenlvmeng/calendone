@@ -2,14 +2,15 @@ import React, { Component } from "react";
 import moment from "moment";
 import classNames from "classnames";
 
+import { EventPeriod, IEvent } from "@/services/db";
 import Mood from "@/components/day-mood";
 import { IDate, IDayEvent } from "./index";
 import NewEvent from "./new-event";
-import { EventPeriod } from "@/utils/db";
 import "./day.less";
 
 interface IProps {
     info: IDayEvent | IDate | null;
+    onDayChange: (delta: { mood?: number; events?: IEvent[] }) => void;
     onClose: () => void;
 }
 
@@ -39,11 +40,6 @@ class Day extends Component<IProps, IState> {
                 </div>
                 <div className="day-events-container">
                     <div className="day-events">
-                        <div className="day-split">
-                            <div className="split" />
-                            <div className="split" />
-                            <div className="split" />
-                        </div>
                         <div className="day-event-input">
                             <div className="allday-input" onClick={this.handleAddAllday}>
                                 <span className="iconfont add-icon" />
@@ -65,6 +61,11 @@ class Day extends Component<IProps, IState> {
                             </div>
                         </div>
                         <div className="day-event-list">
+                            <div className="day-split">
+                                <div className="split" />
+                                <div className="split" />
+                                <div className="split" />
+                            </div>
                             <div className={classNames("day-event-input-content", { visible: currInputPeriod > 0 })}>
                                 <div
                                     className={classNames({
@@ -74,17 +75,32 @@ class Day extends Component<IProps, IState> {
                                         night: currInputPeriod === 4
                                     })}
                                 >
-                                    <NewEvent onFinish={this.handleAddEvent} />
+                                    {currInputPeriod > 0 ? (
+                                        <NewEvent onCancel={this.handleCancelAdd} onFinish={this.handleAddEvent} />
+                                    ) : null}
                                 </div>
                             </div>
                             {events.length ? (
-                                events.map((event, index) => {
-                                    return (
-                                        <div className="day-event-item" key={index}>
-                                            {event.content}
-                                        </div>
-                                    );
-                                })
+                                events
+                                    .sort((a, b) => a.period - b.period)
+                                    .map((event, index) => {
+                                        return (
+                                            <div
+                                                className={classNames("day-event-item", {
+                                                    morning: event.period === 2,
+                                                    afternoon: event.period === 3,
+                                                    night: event.period === 4,
+                                                    "track-event": event.type === 2
+                                                })}
+                                                key={index}
+                                            >
+                                                {event.type === 2 ? (
+                                                    <div className="event-title">{event.track_title}</div>
+                                                ) : null}
+                                                <div className="event-body">{event.content}</div>
+                                            </div>
+                                        );
+                                    })
                             ) : (
                                 <div className="empty-hint">暂无事件，请添加一个</div>
                             )}
@@ -106,7 +122,7 @@ class Day extends Component<IProps, IState> {
     };
 
     private handleMoodChange = (mood: number) => {
-        // TODO
+        this.props.onDayChange({ mood });
     };
 
     private handleAddMorning = () => {
@@ -125,8 +141,31 @@ class Day extends Component<IProps, IState> {
         this.setState({ currInputPeriod: 1 });
     };
 
-    private handleAddEvent = (event: { content: string; isTracking: boolean; trackId?: string }) => {
-        console.log(event);
+    private handleCancelAdd = () => {
+        this.setState({ currInputPeriod: 0 });
+    };
+
+    private handleAddEvent = (event: {
+        content: string;
+        isTracking: boolean;
+        trackId?: string;
+        trackTitle?: string;
+    }) => {
+        let newEvent: IEvent = {
+            content: event.content,
+            period: this.state.currInputPeriod,
+            type: event.isTracking ? 2 : 1
+        };
+        if (event.trackId) {
+            newEvent = {
+                ...newEvent,
+                track_id: +event.trackId,
+                track_title: event.trackTitle,
+                track_stage: 1
+            };
+        }
+        this.props.onDayChange({ events: [newEvent] });
+        this.setState(prevState => ({ currInputPeriod: 0 }));
     };
 }
 

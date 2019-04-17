@@ -59,11 +59,12 @@ interface IPlan {
     stage: PlanStage;
 }
 
-interface IEvent {
+export interface IEvent {
     content: string;
     period: EventPeriod;
     type: EventType;
     track_id?: number;
+    track_title?: string;
     track_stage?: TrackStage;
 }
 

@@ -15,11 +15,12 @@
         top: 30px;
         left: 30px;
         line-height: 24px;
-        color: @f0;
+        color: @f1;
         cursor: pointer;
         &:hover {
-            opacity: 0.6;
+            color: @f0;
         }
+        z-index: 1000;
         &:after {
             content: '\e63e';
         }
@@ -57,24 +58,9 @@
     .day-events {
         position: relative;
         height: 400px;
-        padding: 16px 22px;
+        padding: 16px 22px 0 22px;
         border-bottom: 1px solid @b1;
         overflow-y: auto;
-        .day-split {
-            position: absolute;
-            display: flex;
-            top: 0;
-            left: 22px;
-            right: 22px;
-            height: 100%;
-            .split {
-                flex: 1;
-                border-left: 1px dashed @b1;
-                &:last-child {
-                    border-right: 1px dashed @b1;
-                }
-            }
-        }
     }
     .events-period {
         display: flex;
@@ -123,12 +109,84 @@
     .day-event-list {
         position: relative;
         min-height: 280px;
-        padding-top: 8px;
+        padding: 8px 0;
+        .day-split {
+            position: absolute;
+            display: flex;
+            top: 8px;
+            left: 0;
+            right: 0;
+            height: 100%;
+            .split {
+                flex: 1;
+                border-left: 1px dashed @b1;
+                &:last-child {
+                    border-right: 1px dashed @b1;
+                }
+            }
+        }
         .empty-hint {
             padding-top: 120px;
             font-size: 12px;
             text-align: center;
             color: @f2;
+        }
+        .day-event-item {
+            position: relative;
+            min-height: 60px;
+            margin-bottom: 6px;
+            padding: 10px 16px;
+            color: @info;
+            background-color: @info-bkg;
+            cursor: pointer;
+            transition: transform .3s, box-shadow .3s;
+            &:last-child {
+                margin-bottom: 0;
+            }
+            &:after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 4px;
+                height: 100%;
+                border-radius: 2px;
+                background-color: @info;
+            }
+            &:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 7px 14px rgba(81, 216, 147, 0.15), 0 10px 10px rgba(81, 216, 147, 0.12);
+            }
+            &.track-event {
+                color: @warn;
+                background-color: @warn-bkg;
+                &:hover {
+                    box-shadow: 0 7px 14px rgba(253, 184, 98, 0.15), 0 10px 10px rgba(253, 184, 98, 0.12);
+                }
+                &:after {
+                    background-color: @warn;
+                }
+            }
+            &.morning, &.afternoon, &.night {
+                width: 33.3%;
+            }
+            &.afternoon {
+                margin-left: 33.3%;
+            }
+            &.night {
+                margin-left: 66.7%;
+            }
+            .event-body {
+                margin-top: 4px;
+                font-size: 16px;
+                line-height: 1.4;
+                word-break: break-all;
+                opacity: 0.8;
+            }
+            .event-title {
+                font-size: 12px;
+                font-weight: bold;
+            }
         }
     }
     .day-event-input-content {
@@ -139,6 +197,7 @@
         height: 0;
         background-color: @bg1;
         opacity: 0;
+        z-index: 100;
         transition: height .8s cubic-bezier(0.215, 0.61, 0.355, 1), opacity .8s cubic-bezier(0.215, 0.61, 0.355, 1);
         will-change: height;
         &.visible {
@@ -178,6 +237,13 @@
     height: 100%;
     color: @f0;
     overflow: hidden;
+    .close-drawer {
+        top: 6px;
+        left: auto;
+        right: 10px;
+        font-size: 12px;
+        z-index: 1000;
+    }
     input {
         .common-input;
         max-width: 320px;

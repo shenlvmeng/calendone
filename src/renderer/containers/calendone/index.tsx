@@ -4,11 +4,12 @@ import chunk from "lodash/chunk";
 import classNames from "classnames";
 import find from "lodash/find";
 import Drawer from "rc-drawer";
+import produce from "immer";
 import "rc-drawer/assets/index.css";
 
 import Layout from "../layout";
-import { getEventsBetween } from "@/services/calendone";
-import { IDay } from "@/utils/db";
+import { getEventsBetween, updateCertainDay } from "@/services/calendone";
+import { IEvent } from "@/services/db";
 import { noop } from "@/utils";
 import DayDetail from "./day";
 import "./index.less";
@@ -20,10 +21,18 @@ export interface IDate {
     timestamp: number;
 }
 
-export interface IDayEvent extends IDate, IDay {}
+export interface IDayEvent {
+    id?: number;
+    year: number;
+    month: number;
+    date: number;
+    timestamp: number;
+    mood?: number;
+    events?: IEvent[];
+}
 
 interface IState {
-    days: (IDayEvent | IDate)[];
+    days: IDayEvent[];
     now: moment.Moment;
     currIndex: number;
 }
@@ -158,7 +167,11 @@ class Calendone extends Layout<IState> {
                     placement="right"
                     onMaskClick={this.handleCloseDrawer}
                 >
-                    <DayDetail info={currIndex >= 0 ? days[currIndex] : null} onClose={this.handleCloseDrawer} />
+                    <DayDetail
+                        info={currIndex >= 0 ? days[currIndex] : null}
+                        onDayChange={this.handleDayChange}
+                        onClose={this.handleCloseDrawer}
+                    />
                 </Drawer>
             </div>
         );
@@ -205,6 +218,38 @@ class Calendone extends Layout<IState> {
         if (index) {
             this.setState({ currIndex: +index });
         }
+    };
+
+    private handleDayChange = async (delta: { mood?: number; events?: IEvent[] }) => {
+        const { currIndex, days } = this.state;
+        if (!currIndex) {
+            return;
+        }
+
+        const currDay = days[currIndex];
+        if (currDay) {
+            const id = await updateCertainDay(delta, currDay.timestamp, currDay.id);
+            if (!currDay.id) {
+                currDay.id = id;
+            }
+        }
+
+        this.setState(
+            produce((draft: IState) => {
+                const { mood, events } = delta;
+                const currDay = draft.days[draft.currIndex];
+                if (mood) {
+                    currDay.mood = mood;
+                }
+                if (events) {
+                    if (!currDay.events) {
+                        currDay.events = events;
+                    } else {
+                        currDay.events = currDay.events.concat(events);
+                    }
+                }
+            })
+        );
     };
 
     private handleCloseDrawer = () => {

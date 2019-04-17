@@ -1,7 +1,7 @@
 /**
  * @desc use async/await paradigm instead of callback paradigm
  */
-import Db, { IDay, ITrackEvent } from "@/utils/db";
+import Db, { IDay, ITrackEvent } from "./db";
 
 /**
  * @desc get Events between certain moments
@@ -45,5 +45,19 @@ export async function addTrackEvent(name: string) {
         start_time: Date.now(),
         end_time: 0,
         stage: 1
+    });
+}
+
+/**
+ * @desc update certain day detail
+ */
+export async function updateCertainDay(params: Partial<IDay>, ts: number, id?: number) {
+    if (id) {
+        return await Db.calendar.update(id, params);
+    }
+    return await Db.calendar.add({
+        date: ts,
+        mood: params.mood || 0,
+        events: params.events || []
     });
 }

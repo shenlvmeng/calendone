@@ -26,7 +26,7 @@ class MoodSelector extends Component<IProps, IState> {
             <div
                 className={classNames("mood-selector", { active })}
                 tabIndex={0}
-                onFocus={this.handleFocus}
+                onClick={this.handleClick}
                 onBlur={this.handleBlur}
             >
                 {moods[mood]}
@@ -57,8 +57,10 @@ class MoodSelector extends Component<IProps, IState> {
         }
     };
 
-    private handleFocus = () => {
-        this.setState({ active: true });
+    private handleClick = () => {
+        this.setState(prevState => ({
+            active: !prevState.active
+        }));
     };
 
     private handleBlur = () => {

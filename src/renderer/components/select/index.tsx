@@ -7,10 +7,18 @@ import "./index.less";
 
 interface IProps {
     defaultValue?: string;
+    useLabel?: boolean;
     style?: {
         [key: string]: number | string;
     };
-    onChange: (value: string) => void;
+    onChange: (
+        value:
+            | string
+            | {
+                value: string;
+                label: string;
+            }
+    ) => void;
 }
 
 interface IState {
@@ -87,7 +95,15 @@ class Select extends Component<IProps, IState> {
         const value = e.currentTarget.dataset && e.currentTarget.dataset.value;
         if (value) {
             this.setState({ value });
-            this.props.onChange(value);
+            if (this.props.useLabel) {
+                const option = find(this.state.options, option => option.value === value);
+                this.props.onChange({
+                    value,
+                    label: option ? option.label : ""
+                });
+            } else {
+                this.props.onChange(value);
+            }
         }
     };
 }
