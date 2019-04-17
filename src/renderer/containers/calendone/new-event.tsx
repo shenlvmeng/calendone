@@ -1,13 +1,20 @@
 import React, { Component } from "react";
 
-import { getTrackEvents, addTrackEvent } from "@/services/calendone";
+import { getTrackEvents, addTrackEvent, updateTrackEventStatus } from "@/services/calendone";
 import RadioGroup from "@/components/radio";
 import Select, { Option } from "@/components/select";
 import Button from "@/components/button";
 
 interface IProps {
+    currDate: number;
     onCancel: () => void;
-    onFinish: (event: { content?: string; isTracking: boolean; trackId?: string; trackTitle?: string }) => void;
+    onFinish: (event: {
+        content?: string;
+        isTracking: boolean;
+        trackId?: string;
+        trackTitle?: string;
+        trackStage?: number;
+    }) => void;
 }
 
 interface IState {
@@ -18,6 +25,7 @@ interface IState {
     trackId: string;
     trackTitle: string;
     fromExist: boolean;
+    trackStage: number;
     existTrackEvents: {
         id: string;
         name: string;
@@ -32,6 +40,7 @@ class NewEvent extends Component<IProps, IState> {
         isTracking: false,
         trackId: "",
         trackTitle: "",
+        trackStage: 1,
         fromExist: true,
         existTrackEvents: []
     };
@@ -108,7 +117,7 @@ class NewEvent extends Component<IProps, IState> {
             return (
                 <div className="new-event-step" style={{ width: `${100 / (step + 1)}%` }}>
                     <h3>发生了什么？</h3>
-                    <Select useLabel={true} onChange={this.handleTrackId} style={{ maxWidth: 320 }}>
+                    <Select useLabel={true} onChange={this.handleTrackIdChange} style={{ maxWidth: 320 }}>
                         {existTrackEvents.map((event, index) => (
                             <Option value={event.id} key={index}>
                                 {event.name}
@@ -124,7 +133,7 @@ class NewEvent extends Component<IProps, IState> {
                     />
                     <div className="shift-btns">
                         <Button onClick={this.handlePrev}>上一步</Button>
-                        <Button type="info" onClick={this.handleConfirm} disabled={!trackId}>
+                        <Button type="info" onClick={this.handleNext} disabled={!trackId}>
                             添 加
                         </Button>
                     </div>
@@ -151,11 +160,34 @@ class NewEvent extends Component<IProps, IState> {
         );
     }
 
+    public renderStep3() {
+        const { step } = this.state;
+        return (
+            <div className="new-event-step" style={{ width: `${100 / (step + 1)}%` }}>
+                <h3>继续追踪？</h3>
+                <RadioGroup
+                    options={[
+                        { key: "yes", label: "继续" },
+                        { key: "finish", label: "完成" },
+                        { key: "abandon", label: "终止" }
+                    ]}
+                    onChange={this.handleTrackStageChange}
+                />
+                <div className="shift-btns">
+                    <Button onClick={this.handlePrev}>上一步</Button>
+                    <Button type="info" onClick={this.handleConfirm}>
+                        完 成
+                    </Button>
+                </div>
+            </div>
+        );
+    }
+
     public render() {
         const { step } = this.state;
         return (
             <div className="new-event-container">
-                <div className="iconfont close-drawer" onClick={this.handleCloseSelf} />
+                <div className="iconfont close-btn" onClick={this.handleCloseSelf} />
                 <div
                     className="new-event-steps"
                     style={{
@@ -166,6 +198,7 @@ class NewEvent extends Component<IProps, IState> {
                     {this.renderStep0()}
                     {step > 0 ? this.renderStep1() : null}
                     {step > 1 ? this.renderStep2() : null}
+                    {step > 2 ? this.renderStep3() : null}
                 </div>
             </div>
         );
@@ -191,10 +224,16 @@ class NewEvent extends Component<IProps, IState> {
         });
     };
 
-    private handleTrackId = (track: { value: string; label: string }) => {
+    private handleTrackIdChange = (track: { value: string; label: string }) => {
         this.setState({
             trackId: track.value,
             trackTitle: track.label
+        });
+    };
+
+    private handleTrackStageChange = (stage: string) => {
+        this.setState({
+            trackStage: stage === "finish" ? 2 : stage === "abandon" ? 3 : 1
         });
     };
 
@@ -217,7 +256,14 @@ class NewEvent extends Component<IProps, IState> {
     private handlePressEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
         const key = e.key;
         if (key === "Enter") {
-            this.state.step === 2 && this.state.fromExist ? this.handleConfirm() : this.handleNew();
+            const { step } = this.state;
+            if (step < 2) {
+                this.handleNew();
+            } else if (step > 2) {
+                this.handleConfirm();
+            } else {
+                this.state.fromExist ? this.handleNext() : this.handleNew();
+            }
         }
     };
 
@@ -241,12 +287,16 @@ class NewEvent extends Component<IProps, IState> {
         }
     };
 
-    private handleConfirm = () => {
-        const { trackId, trackContent, trackTitle } = this.state;
+    private handleConfirm = async () => {
+        const { trackId, trackContent, trackTitle, trackStage } = this.state;
         if (trackId) {
+            if (trackStage !== 1) {
+                await updateTrackEventStatus(+trackId, trackStage, this.props.currDate);
+            }
             this.props.onFinish({
                 trackId,
                 trackTitle,
+                trackStage,
                 isTracking: true,
                 content: trackContent
             });

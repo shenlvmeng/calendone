@@ -277,11 +277,7 @@ class Calendone extends Layout<IState> {
                     currDay.mood = mood;
                 }
                 if (events) {
-                    if (!currDay.events) {
-                        currDay.events = events;
-                    } else {
-                        currDay.events = currDay.events.concat(events);
-                    }
+                    currDay.events = events;
                 }
             })
         );

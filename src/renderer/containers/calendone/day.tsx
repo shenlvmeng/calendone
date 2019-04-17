@@ -31,7 +31,7 @@ class Day extends Component<IProps, IState> {
         const { year, month, day, timestamp, mood = 0, events = [] } = this.props.info as IDayEvent;
         return (
             <div className="day-detail">
-                <div className="iconfont close-drawer" onClick={this.handleCloseSelf} />
+                <div className="iconfont close-btn" onClick={this.handleCloseSelf} />
                 <h2 className={classNames({ now: moment().isSame(timestamp, "day") })}>
                     {year}-{month + 1}-{day}
                 </h2>
@@ -76,7 +76,11 @@ class Day extends Component<IProps, IState> {
                                     })}
                                 >
                                     {currInputPeriod > 0 ? (
-                                        <NewEvent onCancel={this.handleCancelAdd} onFinish={this.handleAddEvent} />
+                                        <NewEvent
+                                            currDate={timestamp}
+                                            onCancel={this.handleCancelAdd}
+                                            onFinish={this.handleAddEvent}
+                                        />
                                     ) : null}
                                 </div>
                             </div>
@@ -96,6 +100,11 @@ class Day extends Component<IProps, IState> {
                                                 })}
                                                 key={index}
                                             >
+                                                <div
+                                                    className="iconfont close-btn"
+                                                    data-index={index}
+                                                    onClick={this.handleDeleteEvent}
+                                                />
                                                 {event.type === 2 ? (
                                                     <div className="event-title">{event.track_title}</div>
                                                 ) : null}
@@ -147,11 +156,22 @@ class Day extends Component<IProps, IState> {
         this.setState({ currInputPeriod: 0 });
     };
 
+    private handleDeleteEvent = (e: React.MouseEvent<HTMLDivElement>) => {
+        const index = e.currentTarget.dataset && e.currentTarget.dataset.index;
+        if (!this.props.info || !index) {
+            return;
+        }
+        this.props.onDayChange({
+            events: (this.props.info as IDayEvent).events!.filter((event, id) => id !== +index)
+        });
+    };
+
     private handleAddEvent = (event: {
         content: string;
         isTracking: boolean;
         trackId?: string;
         trackTitle?: string;
+        trackStage?: number;
     }) => {
         let newEvent: IEvent = {
             content: event.content,
@@ -163,10 +183,15 @@ class Day extends Component<IProps, IState> {
                 ...newEvent,
                 track_id: +event.trackId,
                 track_title: event.trackTitle,
-                track_stage: 1
+                track_stage: event.trackStage || 1
             };
         }
-        this.props.onDayChange({ events: [newEvent] });
+        this.props.onDayChange({
+            events:
+                this.props.info && (this.props.info as IDayEvent).events
+                    ? [...((this.props.info as IDayEvent).events || []), newEvent]
+                    : [newEvent]
+        });
         this.setState(prevState => ({ currInputPeriod: 0 }));
     };
 }

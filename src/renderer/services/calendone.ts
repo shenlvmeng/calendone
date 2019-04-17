@@ -49,6 +49,16 @@ export async function addTrackEvent(name: string) {
 }
 
 /**
+ * @desc update status of a TrackEvent
+ */
+export async function updateTrackEventStatus(id: number, newStatus: number, date: number) {
+    await Db.trackEvents.update(id, {
+        stage: newStatus,
+        end_time: date
+    });
+}
+
+/**
  * @desc update certain day detail
  */
 export async function updateCertainDay(params: Partial<IDay>, ts: number, id?: number) {

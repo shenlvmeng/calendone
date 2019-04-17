@@ -10,7 +10,7 @@
     ::-webkit-scrollbar {
         display: none;
     }
-    .close-drawer {
+    .close-btn {
         position: absolute;
         top: 30px;
         left: 30px;
@@ -156,6 +156,9 @@
             &:hover {
                 transform: translateY(-2px);
                 box-shadow: 0 7px 14px rgba(81, 216, 147, 0.15), 0 10px 10px rgba(81, 216, 147, 0.12);
+                .close-btn {
+                    opacity: 0.8;
+                }
             }
             &.track-event {
                 color: @warn;
@@ -167,6 +170,26 @@
                     background-color: @warn;
                 }
             }
+            &.track-event.track-finish {
+                color: @main;
+                background-color: @main-bkg;
+                &:hover {
+                    box-shadow: 0 7px 14px rgba(19, 118, 230, 0.15), 0 10px 10px rgba(19, 118, 230, 0.12);
+                }
+                &:after {
+                    background-color: @main;
+                }
+            }
+            &.track-event.track-abandon {
+                color: @error;
+                background-color: @error-bkg;
+                &:hover {
+                    box-shadow: 0 7px 14px rgba(251, 115, 135, 0.15), 0 10px 10px rgba(251, 115, 135, 0.12);
+                }
+                &:after {
+                    background-color: @error;
+                }
+            }
             &.morning, &.afternoon, &.night {
                 width: 33.3%;
             }
@@ -175,6 +198,13 @@
             }
             &.night {
                 margin-left: 66.7%;
+            }
+            .close-btn {
+                top: 4px;
+                left: auto;
+                right: 8px;
+                font-size: 12px;
+                opacity: 0;
             }
             .event-body {
                 margin-top: 4px;
@@ -191,9 +221,9 @@
     }
     .day-event-input-content {
         position: absolute;
-        left: 2px;
+        left: 0;
         top: 8px;
-        right: 2px;
+        right: 0;
         height: 0;
         background-color: @bg1;
         opacity: 0;
@@ -237,7 +267,7 @@
     height: 100%;
     color: @f0;
     overflow: hidden;
-    .close-drawer {
+    .close-btn {
         top: 6px;
         left: auto;
         right: 10px;
