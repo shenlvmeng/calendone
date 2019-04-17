@@ -83,10 +83,14 @@
         height: 100px;
         padding-top: 8px;
         border: 1px solid @b0;
-        transition: background-color .4s;
+        transition: border-color .2s;
         cursor: pointer;
         &:not(.disabled):hover {
-            background-color: @main-bkg;
+            border-color: @main;
+            border-style: double;
+        }
+        ::-webkit-scrollbar {
+            display: none;
         }
         .date-header {
             height: 20px;
@@ -95,6 +99,7 @@
             .now {
                 position: relative;
                 top: -4px;
+                float: right;
                 display: inline-block;
                 width: 24px;
                 height: 24px;
@@ -107,7 +112,71 @@
             }
         }
         .date-events {
+            width: 100%;
             height: 80px;
+            overflow: auto;
+        }
+        .calendar-day-mood {
+            position: relative;
+            display: inline-block;
+            top: -5px;
+            margin-right: 2px;
+            font-size: 18px;
+        }
+        .calendar-event-item {
+            position: relative;
+            padding: 3px 6px;
+            margin-bottom: 3px;
+            font-size: 12px;
+            line-height: 20px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color: @info;
+            background-color: @info-bkg;
+            &:after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 2px;
+                height: 100%;
+                border-radius: 1px;
+                background-color: @info;
+            }
+            &.track-event {
+                color: @warn;
+                background-color: @warn-bkg;
+                &:after {
+                    background-color: @warn;
+                }
+            }
+            &.track-event.track-finish {
+                color: @main;
+                background-color: @main-bkg;
+                &:after {
+                    background-color: @main;
+                }
+            }
+            &.track-event.track-abandon {
+                color: @error;
+                background-color: @error-bkg;
+                &:after {
+                    background-color: @error;
+                }
+            }
+            &.morning, &.afternoon, &.night {
+                width: 33.3%;
+            }
+            &.afternoon {
+                margin-left: 33.3%;
+            }
+            &.night {
+                margin-left: 66.7%;
+            }
+            .event-title {
+                font-weight: bold;
+            }
         }
         &.not-same-month .date-header {
             color: @f2;

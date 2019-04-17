@@ -11,13 +11,14 @@ import Layout from "../layout";
 import { getEventsBetween, updateCertainDay } from "@/services/calendone";
 import { IEvent } from "@/services/db";
 import { noop } from "@/utils";
+import { moods } from "@/utils/constants";
 import DayDetail from "./day";
 import "./index.less";
 
 export interface IDate {
     year: number;
     month: number;
-    date: number;
+    day: number;
     timestamp: number;
 }
 
@@ -25,8 +26,9 @@ export interface IDayEvent {
     id?: number;
     year: number;
     month: number;
-    date: number;
+    day: number;
     timestamp: number;
+    date?: number;
     mood?: number;
     events?: IEvent[];
 }
@@ -46,7 +48,7 @@ function generatePaddedMonth(start: moment.Moment, end: moment.Moment) {
             timestamp: +start,
             year: start.year(),
             month: start.month(),
-            date: start.date()
+            day: start.date()
         });
         start.add(1, "days");
         if (!start.isBefore(end)) {
@@ -104,6 +106,48 @@ class Calendone extends Layout<IState> {
         });
     }
 
+    public renderDay(index: number, date: IDate) {
+        const currDayDetail = this.state.days[index];
+        const { mood, events } = currDayDetail;
+        return (
+            <React.Fragment>
+                <div className="date-header">
+                    {mood ? <span className="calendar-day-mood">{moods[mood]}</span> : null}
+                    <span
+                        className={classNames({
+                            now: moment().isSame(date.timestamp, "day")
+                        })}
+                    >
+                        {date.day}
+                    </span>
+                </div>
+                <div className="date-events">
+                    {(events || [])
+                        .sort((a, b) => a.period - b.period)
+                        .map((event, index) => (
+                            <div
+                                className={classNames("calendar-event-item", {
+                                    morning: event.period === 2,
+                                    afternoon: event.period === 3,
+                                    night: event.period === 4,
+                                    "track-event": event.type === 2,
+                                    "track-finish": event.track_stage === 2,
+                                    "track-abandon": event.track_stage === 3
+                                })}
+                                key={index}
+                            >
+                                <span className="event-title">
+                                    {event.track_title ? `${event.track_title}` : ""}
+                                    {event.track_title && event.content ? ": " : ""}
+                                </span>
+                                {event.content}
+                            </div>
+                        ))}
+                </div>
+            </React.Fragment>
+        );
+    }
+
     public renderMain() {
         const { now, days, currIndex } = this.state;
         const weeks = chunk(days, 7);
@@ -142,16 +186,7 @@ class Calendone extends Layout<IState> {
                                             })}
                                             onClick={disabled ? noop : this.handleDayClick}
                                         >
-                                            <div className="date-header">
-                                                <span
-                                                    className={classNames({
-                                                        now: moment().isSame(date.timestamp, "day")
-                                                    })}
-                                                >
-                                                    {date.date}
-                                                </span>
-                                            </div>
-                                            <div className="date-events" />
+                                            {this.renderDay(wIndex * 7 + index, date)}
                                         </td>
                                     );
                                 })}

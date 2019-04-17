@@ -49,10 +49,7 @@ class MoodSelector extends Component<IProps, IState> {
     private handleChange = (e: React.MouseEvent<HTMLLIElement>) => {
         const key = e.currentTarget.dataset && e.currentTarget.dataset.key;
         if (key) {
-            this.setState({
-                mood: +key,
-                active: false
-            });
+            this.setState({ mood: +key });
             this.props.onChange(+key);
         }
     };

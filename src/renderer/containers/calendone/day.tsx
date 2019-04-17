@@ -28,12 +28,12 @@ class Day extends Component<IProps, IState> {
             return null;
         }
         const { currInputPeriod } = this.state;
-        const { year, month, date, timestamp, mood = 0, events = [] } = this.props.info as IDayEvent;
+        const { year, month, day, timestamp, mood = 0, events = [] } = this.props.info as IDayEvent;
         return (
             <div className="day-detail">
                 <div className="iconfont close-drawer" onClick={this.handleCloseSelf} />
                 <h2 className={classNames({ now: moment().isSame(timestamp, "day") })}>
-                    {year}-{month + 1}-{date}
+                    {year}-{month + 1}-{day}
                 </h2>
                 <div className="day-mood">
                     Mood: <Mood defaultMood={mood} onChange={this.handleMoodChange} />
@@ -90,7 +90,9 @@ class Day extends Component<IProps, IState> {
                                                     morning: event.period === 2,
                                                     afternoon: event.period === 3,
                                                     night: event.period === 4,
-                                                    "track-event": event.type === 2
+                                                    "track-event": event.type === 2,
+                                                    "track-finish": event.track_stage === 2,
+                                                    "track-abandon": event.track_stage === 3
                                                 })}
                                                 key={index}
                                             >
