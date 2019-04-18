@@ -301,7 +301,7 @@ class NewEvent extends Component<IProps, IState> {
             return;
         }
         if (isTracking) {
-            const id = await addTrackEvent(content);
+            const id = await addTrackEvent(content, this.props.currDate);
             this.props.onFinish({
                 isTracking: true,
                 trackId: `${id}`,

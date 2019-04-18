@@ -29,7 +29,10 @@
         height: 48px;
         line-height: 48px;
         font-size: 16px;
-        padding: 0 36px;
+        transition: color 0.3s;
+        &:hover {
+            color: @main;
+        }
         &.active {
             &:after {
                 content: '';
@@ -46,6 +49,11 @@
         }
         i {
             margin-right: 12px;
+        }
+        .tab-content, a {
+            display: block;
+            width: 128px;
+            margin: 0 auto;
         }
     }
 }

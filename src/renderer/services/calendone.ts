@@ -39,12 +39,14 @@ export async function getTrackEvents(isActive: boolean) {
 /**
  * @desc insert a TrackEvent
  */
-export async function addTrackEvent(name: string) {
+export async function addTrackEvent(name: string, date: number) {
     return Db.trackEvents.add({
         name,
-        start_time: Date.now(),
+        start_time: date,
         end_time: 0,
-        stage: 1
+        stage: 1,
+        create_time: Date.now(),
+        update_time: Date.now()
     });
 }
 
@@ -54,7 +56,8 @@ export async function addTrackEvent(name: string) {
 export async function updateTrackEventStatus(id: number, newStatus: number, date: number) {
     await Db.trackEvents.update(id, {
         stage: newStatus,
-        end_time: date
+        end_time: date,
+        update_time: Date.now()
     });
 }
 

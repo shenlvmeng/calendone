@@ -81,6 +81,8 @@ export interface ITrackEvent {
     start_time: number;
     end_time: number;
     stage: TrackStage;
+    create_time: number;
+    update_time: number;
 }
 
 class Db extends Dexie {
