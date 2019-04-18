@@ -1,34 +1,46 @@
 import React, { Component } from "react";
 import moment from "moment";
 import classNames from "classnames";
+import produce from "immer";
 
 import { EventPeriod, IEvent } from "@/services/db";
 import Mood from "@/components/day-mood";
-import { IDate, IDayEvent } from "./index";
+import { IDayEvent } from "./index";
 import NewEvent from "./new-event";
 import "./day.less";
 
 interface IProps {
-    info: IDayEvent | IDate | null;
+    info: IDayEvent | null;
     onDayChange: (delta: { mood?: number; events?: IEvent[] }) => void;
     onClose: () => void;
 }
 
 interface IState {
     currInputPeriod: EventPeriod;
+    currIndex: number;
+    currEvent: {
+        step?: number;
+        content?: string;
+        isTracking?: boolean;
+        trackTitle?: string;
+        trackId?: string;
+        trackContent?: string;
+    };
 }
 
 class Day extends Component<IProps, IState> {
     public readonly state: IState = {
-        currInputPeriod: 0
+        currInputPeriod: 0,
+        currIndex: 0,
+        currEvent: {}
     };
 
     public render() {
         if (!this.props.info) {
             return null;
         }
-        const { currInputPeriod } = this.state;
-        const { year, month, day, timestamp, mood = 0, events = [] } = this.props.info as IDayEvent;
+        const { currInputPeriod, currEvent } = this.state;
+        const { year, month, day, timestamp, mood = 0, events = [] } = this.props.info;
         return (
             <div className="day-detail">
                 <div className="iconfont close-btn" onClick={this.handleCloseSelf} />
@@ -77,9 +89,10 @@ class Day extends Component<IProps, IState> {
                                 >
                                     {currInputPeriod > 0 ? (
                                         <NewEvent
+                                            {...currEvent}
                                             currDate={timestamp}
                                             onCancel={this.handleCancelAdd}
-                                            onFinish={this.handleAddEvent}
+                                            onFinish={this.handlePutEvent}
                                         />
                                     ) : null}
                                 </div>
@@ -99,6 +112,8 @@ class Day extends Component<IProps, IState> {
                                                     "track-abandon": event.track_stage === 3
                                                 })}
                                                 key={index}
+                                                data-index={index}
+                                                onClick={this.handleUpdateEvent}
                                             >
                                                 <div
                                                     className="iconfont close-btn"
@@ -137,19 +152,31 @@ class Day extends Component<IProps, IState> {
     };
 
     private handleAddMorning = () => {
-        this.setState({ currInputPeriod: 2 });
+        this.setState({
+            currEvent: { step: 0 },
+            currInputPeriod: 2
+        });
     };
 
     private handleAddAfternoon = () => {
-        this.setState({ currInputPeriod: 3 });
+        this.setState({
+            currEvent: { step: 0 },
+            currInputPeriod: 3
+        });
     };
 
     private handleAddNight = () => {
-        this.setState({ currInputPeriod: 4 });
+        this.setState({
+            currEvent: { step: 0 },
+            currInputPeriod: 4
+        });
     };
 
     private handleAddAllday = () => {
-        this.setState({ currInputPeriod: 1 });
+        this.setState({
+            currEvent: { step: 0 },
+            currInputPeriod: 1
+        });
     };
 
     private handleCancelAdd = () => {
@@ -157,16 +184,17 @@ class Day extends Component<IProps, IState> {
     };
 
     private handleDeleteEvent = (e: React.MouseEvent<HTMLDivElement>) => {
+        e.stopPropagation();
         const index = e.currentTarget.dataset && e.currentTarget.dataset.index;
         if (!this.props.info || !index) {
             return;
         }
         this.props.onDayChange({
-            events: (this.props.info as IDayEvent).events!.filter((event, id) => id !== +index)
+            events: this.props.info.events!.sort((a, b) => a.period - b.period).filter((event, id) => id !== +index)
         });
     };
 
-    private handleAddEvent = (event: {
+    private handlePutEvent = (event: {
         content: string;
         isTracking: boolean;
         trackId?: string;
@@ -186,13 +214,53 @@ class Day extends Component<IProps, IState> {
                 track_stage: event.trackStage || 1
             };
         }
+
+        let newEvents: IEvent[] = [];
+        if (this.state.currEvent.step && this.props.info && this.props.info.events) {
+            newEvents = this.props.info.events.slice();
+            newEvents[this.state.currIndex] = newEvent;
+        } else {
+            newEvents =
+                this.props.info && this.props.info.events ? [...(this.props.info.events || []), newEvent] : [newEvent];
+        }
         this.props.onDayChange({
-            events:
-                this.props.info && (this.props.info as IDayEvent).events
-                    ? [...((this.props.info as IDayEvent).events || []), newEvent]
-                    : [newEvent]
+            events: newEvents
         });
         this.setState(prevState => ({ currInputPeriod: 0 }));
+    };
+
+    private handleUpdateEvent = (e: React.MouseEvent<HTMLDivElement>) => {
+        const sortedIndex = e.currentTarget.dataset && e.currentTarget.dataset.index;
+        if (!sortedIndex || !this.props.info || !this.props.info.events) {
+            return;
+        }
+
+        const event: IEvent = this.props.info.events.sort((a, b) => a.period - b.period)[+sortedIndex];
+        const { period, type, content } = event;
+
+        if (type === 1) {
+            this.setState({
+                currIndex: +sortedIndex,
+                currInputPeriod: period,
+                currEvent: {
+                    content,
+                    step: 1,
+                    isTracking: false
+                }
+            });
+        } else if (type === 2) {
+            this.setState({
+                currIndex: +sortedIndex,
+                currInputPeriod: period,
+                currEvent: {
+                    step: 2,
+                    isTracking: true,
+                    trackTitle: event.track_title,
+                    trackContent: event.content,
+                    trackId: `${event.track_id}`
+                }
+            });
+        }
     };
 }
 

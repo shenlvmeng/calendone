@@ -39,12 +39,22 @@ class Select extends Component<IProps, IState> {
 
     public componentDidMount() {
         if (this.props.children) {
-            const options = React.Children.map(this.props.children, (child: React.ReactElement<any>) => ({
-                value: child.props.value || child.props.label,
-                label: child.props.label || child.props.children
-            }));
-            this.setState({ options });
+            this.getOptions();
         }
+    }
+
+    public componentDidUpdate(prevProps: any) {
+        if (React.Children.count(prevProps.children) !== React.Children.count(this.props.children)) {
+            this.getOptions();
+        }
+    }
+
+    public getOptions() {
+        const options = React.Children.map(this.props.children, (child: React.ReactElement<any>) => ({
+            value: child.props.value || child.props.label,
+            label: child.props.label || child.props.children
+        }));
+        this.setState({ options });
     }
 
     public render() {

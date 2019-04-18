@@ -70,6 +70,7 @@
     }
     table {
         width: 100%;
+        table-layout: fixed;
         border-radius: 0 0 4px 4px;
         border-collapse: collapse;
         overflow: hidden;
@@ -96,10 +97,13 @@
             height: 20px;
             padding: 0 8px;
             text-align: right;
+            & > span {
+                display: inline-block;
+                vertical-align: top;
+            }
             .now {
                 position: relative;
                 top: -4px;
-                float: right;
                 display: inline-block;
                 width: 24px;
                 height: 24px;

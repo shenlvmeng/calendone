@@ -57,7 +57,7 @@
     }
     .day-events {
         position: relative;
-        height: 400px;
+        height: 480px;
         padding: 16px 22px 0 22px;
         border-bottom: 1px solid @b1;
         overflow-y: auto;
@@ -108,7 +108,7 @@
     }
     .day-event-list {
         position: relative;
-        min-height: 280px;
+        min-height: 365px;
         padding: 8px 0;
         .day-split {
             position: absolute;
@@ -228,10 +228,10 @@
         background-color: @bg1;
         opacity: 0;
         z-index: 100;
-        transition: height .8s cubic-bezier(0.215, 0.61, 0.355, 1), opacity .8s cubic-bezier(0.215, 0.61, 0.355, 1);
+        transition: height .6s cubic-bezier(0.215, 0.61, 0.355, 1), opacity .6s cubic-bezier(0.215, 0.61, 0.355, 1);
         will-change: height;
         &.visible {
-            height: 280px;
+            height: 365px;
             opacity: 1;
         }
         .allday, .morning, .afternoon, .night {
@@ -295,10 +295,13 @@
         will-change: left;
     }
     .new-event-step {
-        display: inline-block;
+        display: inline-flex;
+        flex-flow: column nowrap;
+        justify-content: center;
+        align-items: center;
         height: 100%;
         vertical-align: top;
-        padding: 20px 8px;
+        padding: 0 8px 20px;
         h3 {
             margin-bottom: 24px;
             line-height: 2;
