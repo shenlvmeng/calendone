@@ -1,0 +1,180 @@
+@import '../../style/color.less';
+
+.plans-container {
+    display: flex;
+    flex-flow: column;
+    height: 100%;
+    padding: 40px 32px;
+    overflow: hidden;
+    h1 {
+        font-family: 'Museo';
+    }
+    ::selection {
+        color: @f4;
+        background-color: @neon;
+    }
+    .plans-main {
+        flex: 1;
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        margin-top: 70px;
+        & > section {
+            display: flex;
+            flex-flow: column;
+            position: relative;
+            width: 400px;
+            max-height: 100%;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 25px 50px 0 rgba(0, 0, 0, 0.1);
+            ::-webkit-scrollbar {
+                display: none;
+            }
+        }
+        aside {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            width: 100%;
+            font-weight: 200;
+            font-size: 22px;
+            color: @f1;
+            .total-count {
+                float: right;
+                padding-right: 4px;
+                color: @f0;
+                &.empty {
+                    color: @info;
+                }
+            }
+        }
+    }
+    .plans-entry {
+        display: flex;
+        align-items: center;
+        height: 60px;
+        padding: 12px 10px;
+        border-bottom: 1px solid @b1;
+        .plans-content {
+            flex: 1;
+            margin: 0 4px 0 12px;
+        }
+        input, .plans-text {
+            border: none;
+            width: 100%;
+            height: 100%;
+            font-size: 20px;
+            font-weight: 300;
+            outline: none;
+            color: @f0;
+            background-color: transparent;
+            caret-color: @neon;
+            &.finished {
+                color: @f2;
+                text-decoration: @neon line-through;
+            }
+        }
+        &:hover {
+            background-color: fade(@neon-bkg, 30%);
+            .info-btn, .close-btn {
+                opacity: 1;
+                pointer-events: inherit;
+            }
+        }
+        ::placeholder {
+            color: @f2;
+            font-style: oblique;
+        }
+        .multiline .plans-entry input {
+            height: 70%;
+        }
+        .plans-deadline {
+            height: 30%;
+            font-size: 14px;
+            color: @f1;
+            &.alert {
+                color: @error;
+            }
+        }
+        .calendone-tag {
+            margin-right: 6px;
+        }
+        .info-btn, .close-btn {
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            color: @f1;
+            opacity: 0;
+            pointer-events: none;
+            cursor: pointer;
+            &:hover {
+                color: @neon;
+            }
+        }
+        .info-btn:after {
+            font-size: 24px;
+            content: '\e63f';
+        }
+        .close-btn {
+            margin-left: 2px;
+            padding-top: 1px;
+            &:after {
+                font-size: 20px;
+                content: '\e63e';
+            }
+        }
+        .empty-hint {
+            font-size: 20px;
+            font-weight: 300;
+            color: @f2;
+            text-align: center;
+            font-style: oblique;
+        }
+    }
+    .new-plan {
+        min-height: 60px;
+        box-shadow: inset -1px -2px rgba(0, 0, 0, 0.03);
+        input {
+            margin: 0 4px 0 12px;
+        }
+    }
+    .plans-entries {
+        flex: 1;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+    .show-finished-switch {
+        height: 50px;
+        font-size: 16px;
+        font-weight: 300;
+        line-height: 50px;
+        text-align: center;
+        color: @f1;
+        box-shadow: 0 -2px rgba(0, 0, 0, 0.03);
+        cursor: pointer;
+        transition: color 0.2s;
+        &:hover {
+            color: @neon;
+        }
+    }
+}
+
+.plan-checkbox {
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    padding: 4px;
+    line-height: 24px;
+    border: 1px solid @b1;
+    border-radius: 100%;
+    text-align: center;
+    cursor: pointer;
+    &.active {
+        border-color: @neon-bkg;
+        color: @neon;
+        &:after {
+            font-size: 20px;
+            content: '\e6b5';
+        }
+    }
+}

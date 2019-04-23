@@ -121,7 +121,9 @@ class Day extends Component<IProps, IState> {
                                                     onClick={this.handleDeleteEvent}
                                                 />
                                                 {event.type === 2 ? (
-                                                    <div className="event-title">{event.track_title}</div>
+                                                    <div className="event-title">
+                                                        #{event.track_id}: {event.track_title}
+                                                    </div>
                                                 ) : null}
                                                 <div className="event-body">{event.content}</div>
                                             </div>

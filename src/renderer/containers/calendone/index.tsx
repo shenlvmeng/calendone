@@ -153,7 +153,7 @@ class Calendone extends Layout<IState> {
         const weeks = chunk(days, 7);
         return (
             <div className="calendone">
-                <h1>Calendar</h1>
+                <h1>Calendar / 日记</h1>
                 <div className="current-month">
                     <span className="fast-prev" onClick={this.handlePrevYear} />
                     <span className="prev" onClick={this.handlePrevMonth} />

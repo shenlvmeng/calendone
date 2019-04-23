@@ -50,12 +50,13 @@ const enum Mood {
     Fearful = 8
 }
 
-interface IPlan {
+export interface IPlan {
     id?: number;
     content: string;
     priority: PlanPriority;
+    deadline: number;
     start_time: number;
-    end_time: number;
+    update_time: number;
     stage: PlanStage;
 }
 
