@@ -12,8 +12,8 @@ const dayDiffStrs = {
 };
 
 export const fromNow = (ts: number) => {
-    const deadline = moment(ts);
-    const days = moment().diff(deadline, "days");
+    const deadline = moment(ts).startOf("day");
+    const days = deadline.diff(moment().startOf("day"), "days");
     const humanizeStr = dayDiffStrs[days];
     if (humanizeStr) {
         return humanizeStr;

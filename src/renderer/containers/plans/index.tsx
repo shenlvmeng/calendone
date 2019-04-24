@@ -5,7 +5,7 @@ import produce from "immer";
 import find from "lodash/find";
 import findIndex from "lodash/findIndex";
 import Dialog from "rc-dialog";
-import "rc-dialog/assets/bootstrap.css";
+import "rc-dialog/assets/index.css";
 
 import { IPlan } from "@/services/db";
 import { getPlans, addPlan, updatePlan, updatePlans } from "@/services/plans";
@@ -13,6 +13,7 @@ import { fromNow } from "@/utils";
 import Tag from "@/components/tag";
 import Layout from "../layout";
 import Checkbox from "./checkbox";
+import Detail from "./detail";
 import "./index.less";
 
 interface IState {
@@ -89,7 +90,7 @@ class Plans extends Layout<IState> {
                             onBlur={this.handleBlurChange}
                         />
                     )}
-                    {!today && plan.deadline ? (
+                    {!today && plan.stage !== 2 && plan.deadline ? (
                         <p
                             className={classNames("plans-deadline", {
                                 alert: moment(plan.deadline).isSameOrBefore(Date.now(), "day")
@@ -113,7 +114,7 @@ class Plans extends Layout<IState> {
         const ongoing = plans.filter(plan => plan.stage === 1);
         const inactive = plans.filter(plan => plan.stage === 2);
         const today = ongoing
-            .filter(plan => moment(plan.deadline).isSameOrBefore(Date.now(), "day"))
+            .filter(plan => plan.deadline && moment(plan.deadline).isSameOrBefore(Date.now(), "day"))
             .sort((a, b) => b.priority - a.priority);
         return (
             <div className="plans-container">
@@ -122,7 +123,7 @@ class Plans extends Layout<IState> {
                     <section className="ongoing-plans">
                         <aside>
                             待办事项
-                            <span className={classNames("total-count", { empty: !today.length })}>
+                            <span className={classNames("total-count", { empty: !ongoing.length })}>
                                 {ongoing.length}
                             </span>
                         </aside>
@@ -163,13 +164,22 @@ class Plans extends Layout<IState> {
                     </section>
                 </div>
                 <Dialog
+                    wrapClassName="common-dialog-wrap"
+                    className="common-dialog plan-detail"
                     visible={!!currViewPlan}
-                    title="详情"
+                    animation="zoom"
                     maskAnimation="fade"
-                    animation="slide-fade"
+                    closable={false}
                     onClose={this.handleClosePlanDetail}
+                    destroyOnClose={true}
                 >
-                    TODO
+                    {currViewPlan ? (
+                        <React.Fragment>
+                            <h2>详细信息</h2>
+                            <div className="close-btn iconfont" onClick={this.handleClosePlanDetail} />
+                            <Detail detail={currViewPlan} onConfirm={this.handleUpdatePlanDetail} />
+                        </React.Fragment>
+                    ) : null}
                 </Dialog>
             </div>
         );
@@ -270,6 +280,26 @@ class Plans extends Layout<IState> {
 
     private handleClosePlanDetail = () => {
         this.setState({ currViewPlan: null });
+    };
+
+    private handleUpdatePlanDetail = async (detail: Partial<IPlan>) => {
+        const { currViewPlan, plans } = this.state;
+        if (!currViewPlan || !currViewPlan.id) {
+            return;
+        }
+        await updatePlan(currViewPlan.id, {
+            ...detail
+        });
+        const index = findIndex(plans, plan => plan.id === (currViewPlan.id as number));
+        this.setState(
+            produce((draft: IState) => {
+                draft.plans[index] = {
+                    ...draft.plans[index],
+                    ...detail
+                };
+                draft.currViewPlan = null;
+            })
+        );
     };
 }
 

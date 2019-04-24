@@ -1,4 +1,5 @@
 @import '../../style/color.less';
+@import '../../style/common.less';
 
 .plans-container {
     display: flex;
@@ -90,7 +91,7 @@
         }
         .plans-deadline {
             height: 30%;
-            font-size: 14px;
+            font-size: 12px;
             color: @f1;
             &.alert {
                 color: @error;
@@ -161,7 +162,7 @@
 
 .plan-checkbox {
     display: inline-block;
-    width: 32px;
+    min-width: 32px;
     height: 32px;
     padding: 4px;
     line-height: 24px;
@@ -177,4 +178,91 @@
             content: '\e6b5';
         }
     }
+}
+
+.plan-detail {
+    width: 500px;
+    .rc-dialog-content {
+        position: relative;
+        padding: 20px;
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            line-height: 24px;
+            color: @f1;
+            cursor: pointer;
+            &:hover {
+                color: @neon;
+            }
+            &:after {
+                content: '\e63e';
+            }
+        }
+        h2 {
+            margin-bottom: 12px;
+            font-size: 26px;
+            font-weight: 300;
+            color: @neon;
+        }
+        .plan-detail-item {
+            margin-bottom: 16px;
+            label {
+                display: inline-block;
+                font-size: 12px;
+                line-height: 28px;
+            }
+            input {
+                .common-input;
+                width: 100%;
+                outline: none;
+                &:focus {
+                    border-color: @neon;
+                }
+                &::placeholder {
+                    color: @f3;
+                }
+            }
+            &.two-label {
+                label {
+                    width: 50%;
+                }
+                .calendone-select {
+                    width: 220px;
+                    margin-right: 10px;
+                    &:hover {
+                        border-color: @neon;
+                    }
+                    &.active {
+                        border-color: @neon;
+                        box-shadow: 0 0 0 2px fade(@neon, 30%);
+                    }
+                    li.active, li:hover {
+                        background-color: @neon-bkg;
+                    }
+                }
+                input {
+                    vertical-align: top;
+                    width: 220px;
+                }
+            }
+        }
+        .plan-detail-hint {
+            font-size: 12px;
+            line-height: 20px;
+            color: @f1;
+        }
+        .plan-detail-operate {
+            margin-top: 12px;
+            border-top: 1px solid @b0;
+            padding-top: 12px;
+            text-align: right;
+        }
+    }
+}
+
+.plan-detail-calendar {
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
+    border: none;
+    .styled-calendar(@neon, @neon-bkg);
 }

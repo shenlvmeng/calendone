@@ -52,7 +52,9 @@
         margin-top: 4px;
         border-radius: 4px;
         overflow: hidden;
+        z-index: 2;
         opacity: 0;
+        background-color: @bg0;
         box-shadow: 0 2px 8px rgba(0,0,0,0.15);
         transform-origin: top;
         transform: scaleY(0);
@@ -61,7 +63,6 @@
     li {
         line-height: 32px;
         padding: 0 6px;
-        background-color: @bg0;
         transition: background-color 0.4s;
         cursor: pointer;
         &.active {

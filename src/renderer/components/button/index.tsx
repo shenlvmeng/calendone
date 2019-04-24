@@ -4,7 +4,7 @@ import classNames from "classnames";
 import "./index.less";
 
 interface IProps {
-    type?: "primary" | "info" | "warn" | "danger";
+    type?: "primary" | "info" | "warn" | "danger" | "neon";
     disabled?: boolean;
     onClick?: () => void;
 }
@@ -21,7 +21,8 @@ const Button: React.FunctionComponent<IProps> = props => {
                 primary: type === "primary",
                 info: type === "info",
                 warn: type === "warn",
-                danger: type === "danger"
+                danger: type === "danger",
+                neon: type === "neon"
             })}
             disabled={disabled}
             onClick={handleClick}

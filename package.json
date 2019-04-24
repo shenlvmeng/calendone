@@ -79,6 +79,7 @@
         "electron-is-dev": "^1.0.1",
         "electron-updater": "^4.0.5",
         "moment": "^2.24.0",
+        "rc-calendar": "^9.12.4",
         "rc-dialog": "^7.3.1",
         "rc-drawer": "^1.7.7",
         "react": "^16.8.6",
