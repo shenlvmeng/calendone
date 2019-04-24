@@ -94,7 +94,7 @@ class Db extends Dexie {
     constructor() {
         super(DB_NAME);
         this.version(CURRENT_VERSION).stores({
-            plans: "++id, priority, stage",
+            plans: "++id, priority, stage, deadline",
             calendar: "++id, date, mood",
             trackEvents: "++id, stage"
         });

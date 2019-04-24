@@ -2,6 +2,7 @@
  * @desc use async/await paradigm instead of callback paradigm
  */
 import Db, { IPlan } from "./db";
+import moment from "moment";
 
 /**
  * @desc get all plans
@@ -14,6 +15,25 @@ export async function getPlans() {
                 .notEqual(3)
                 .reverse()
                 .sortBy("end_time", resolve);
+        } catch (err) {
+            reject(err);
+        }
+    });
+}
+/**
+ * @desc get sum of plans
+ */
+export async function countPlans(today?: boolean) {
+    return new Promise<number>(async (resolve, reject) => {
+        try {
+            if (today) {
+                await Db.plans
+                    .where("deadline")
+                    .belowOrEqual(+moment().endOf("day"))
+                    .count(resolve);
+            } else {
+                await Db.plans.count(resolve);
+            }
         } catch (err) {
             reject(err);
         }

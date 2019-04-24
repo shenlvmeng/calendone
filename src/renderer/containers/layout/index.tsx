@@ -1,26 +1,31 @@
-import React, { Component } from "react";
+import React from "react";
 import { RouteComponentProps } from "react-router";
+import { Switch, Route, withRouter } from "react-router-dom";
 
 import Nav from "./nav";
 import Header from "./header";
+import Calendone from "../calendone";
+import Plans from "../plans";
 import "./index.less";
 
 /**
  * base app layout
  */
-abstract class BasicLayout<T> extends Component<RouteComponentProps<{}>, T> {
-    public abstract renderMain(): React.ReactNode;
-    render() {
-        return (
-            <div className="layout">
-                <Nav location={this.props.location} />
-                <div className="layout-main">
-                    <Header />
-                    <div className="layout-main-content">{this.renderMain()}</div>
+const BasicLayout: React.FunctionComponent<RouteComponentProps<{}>> = props => {
+    return (
+        <div className="layout">
+            <Nav location={props.location} />
+            <div className="layout-main">
+                <Header {...props} />
+                <div className="layout-main-content">
+                    <Switch>
+                        <Route path="/" exact={true} component={Calendone} />
+                        <Route path="/plans" component={Plans} />
+                    </Switch>
                 </div>
             </div>
-        );
-    }
-}
+        </div>
+    );
+};
 
-export default BasicLayout;
+export default withRouter(BasicLayout);

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import classNames from "classnames";
 import moment from "moment";
 import produce from "immer";
@@ -11,7 +11,6 @@ import { IPlan } from "@/services/db";
 import { getPlans, addPlan, updatePlan, updatePlans } from "@/services/plans";
 import { fromNow } from "@/utils";
 import Tag from "@/components/tag";
-import Layout from "../layout";
 import Checkbox from "./checkbox";
 import Detail from "./detail";
 import "./index.less";
@@ -26,7 +25,7 @@ interface IState {
 /**
  * plans part
  */
-class Plans extends Layout<IState> {
+class Plans extends Component {
     public readonly state: IState = {
         showFinished: false,
         newContent: "",
@@ -109,7 +108,7 @@ class Plans extends Layout<IState> {
         );
     }
 
-    public renderMain() {
+    public render() {
         const { newContent, plans, showFinished, currViewPlan } = this.state;
         const ongoing = plans.filter(plan => plan.stage === 1);
         const inactive = plans.filter(plan => plan.stage === 2);

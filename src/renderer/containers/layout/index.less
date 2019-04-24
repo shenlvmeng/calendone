@@ -71,14 +71,17 @@ header {
         -webkit-app-region: drag;
     }
     .notification {
+        position: relative;
         width: 32px;
-        margin-right: 12px;
+        margin-right: 16px;
         text-align: center;
         cursor: pointer;
         &:after {
             content: '\f27a';
+            position: relative;
+            top: 2px;
             font-family: "iconfont";
-            font-size: 20px;
+            font-size: 16px;
         }
     }
     .user-info {

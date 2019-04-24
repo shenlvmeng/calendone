@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import moment from "moment";
 import chunk from "lodash/chunk";
 import classNames from "classnames";
@@ -7,7 +7,6 @@ import Drawer from "rc-drawer";
 import produce from "immer";
 import "rc-drawer/assets/index.css";
 
-import Layout from "../layout";
 import { getEventsBetween, updateCertainDay } from "@/services/calendone";
 import { IEvent } from "@/services/db";
 import { noop } from "@/utils";
@@ -61,7 +60,7 @@ function generatePaddedMonth(start: moment.Moment, end: moment.Moment) {
 /**
  * calendone part
  */
-class Calendone extends Layout<IState> {
+class Calendone extends Component {
     public readonly state: IState = {
         days: [],
         now: moment(),
@@ -148,7 +147,7 @@ class Calendone extends Layout<IState> {
         );
     }
 
-    public renderMain() {
+    public render() {
         const { now, days, currIndex } = this.state;
         const weeks = chunk(days, 7);
         return (
