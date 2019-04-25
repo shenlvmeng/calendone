@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import produce from "immer";
 
-import { userNameStorageKey } from "@/utils/constants";
+import { userNameStorageKey, userAvatarStorageKey } from "@/utils/constants";
 
 interface IUser {
     avatar: string;
@@ -24,7 +24,7 @@ const Provider: React.FunctionComponent<{}> = props => {
     const [store, setStore] = useState<IState>({
         setUser,
         userInfo: {
-            avatar: "",
+            avatar: localStorage.getItem(userAvatarStorageKey) || "",
             name: localStorage.getItem(userNameStorageKey) || "Bebop Ed"
         }
     });
@@ -38,6 +38,12 @@ const Provider: React.FunctionComponent<{}> = props => {
                 };
             })(store)
         );
+        if (user.name) {
+            localStorage.setItem(userNameStorageKey, user.name);
+        }
+        if (user.avatar) {
+            localStorage.setItem(userAvatarStorageKey, user.avatar);
+        }
     }
 
     return <StoreContext.Provider value={store}>{props.children}</StoreContext.Provider>;

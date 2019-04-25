@@ -28,11 +28,15 @@ export async function countPlans(today?: boolean) {
         try {
             if (today) {
                 await Db.plans
-                    .where("deadline")
-                    .belowOrEqual(+moment().endOf("day"))
+                    .where("stage")
+                    .equals(1)
+                    .filter(val => val.deadline <= +moment().endOf("day"))
                     .count(resolve);
             } else {
-                await Db.plans.count(resolve);
+                await Db.plans
+                    .where("stage")
+                    .notEqual(3)
+                    .count(resolve);
             }
         } catch (err) {
             reject(err);

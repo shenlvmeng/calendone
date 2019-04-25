@@ -31,11 +31,9 @@ const Header: React.FunctionComponent<RouteComponentProps<{}>> = props => {
                 {count ? <Unread count={count} /> : null}
             </div>
             <div className="user-info" onClick={toUser}>
-                {userInfo.avatar ? (
-                    <img src={userInfo.avatar} />
-                ) : (
-                    <span className="capital">{userInfo.name.toUpperCase().slice(0, 1)}</span>
-                )}
+                <span className="capital">
+                    {userInfo.avatar ? <img src={userInfo.avatar} /> : userInfo.name.toUpperCase().slice(0, 1)}
+                </span>
                 {userInfo.name}
             </div>
         </header>

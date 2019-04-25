@@ -337,7 +337,6 @@ class Calendone extends Component<RouteComponentProps<{}>, IState> {
             this.context.setUser({
                 name: newName
             });
-        localStorage.setItem(userNameStorageKey, newName);
         this.setState({ hasSetName: true });
     };
 }

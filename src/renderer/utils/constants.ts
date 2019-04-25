@@ -25,3 +25,4 @@ export const moods = {
 };
 
 export const userNameStorageKey = "_calendone_user_name";
+export const userAvatarStorageKey = "_calendone_user_avatar";

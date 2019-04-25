@@ -50,19 +50,21 @@ const Nav: React.FunctionComponent<IProps> = (props: IProps) => {
                     </Link>
                 )}
             </div>
-            <div className={classNames("nav-tab", { active: currPath === "/user" })}>
-                {currPath === "/user" ? (
-                    <div className="tab-content">
-                        <i className="iconfont user" />
-                        User
-                    </div>
-                ) : (
-                    <Link to="/user">
-                        <i className="iconfont user" />
-                        User
-                    </Link>
-                )}
-            </div>
+            <section className="rare-operation">
+                <div className={classNames("nav-tab", { active: currPath === "/user" })}>
+                    {currPath === "/user" ? (
+                        <div className="tab-content">
+                            <i className="iconfont user" />
+                            User
+                        </div>
+                    ) : (
+                        <Link to="/user">
+                            <i className="iconfont user" />
+                            User
+                        </Link>
+                    )}
+                </div>
+            </section>
         </div>
     );
 };
