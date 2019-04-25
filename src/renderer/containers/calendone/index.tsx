@@ -1,16 +1,20 @@
 import React, { Component } from "react";
+import { RouteComponentProps } from "react-router";
 import moment from "moment";
-import chunk from "lodash/chunk";
 import classNames from "classnames";
+import chunk from "lodash/chunk";
 import find from "lodash/find";
 import Drawer from "rc-drawer";
 import produce from "immer";
+import Dialog from "rc-dialog";
 import "rc-drawer/assets/index.css";
 
+import { StoreContext } from "@/store";
 import { getEventsBetween, updateCertainDay } from "@/services/calendone";
 import { IEvent } from "@/services/db";
 import { noop } from "@/utils";
-import { moods } from "@/utils/constants";
+import { moods, userNameStorageKey } from "@/utils/constants";
+import Button from "@/components/button";
 import DayDetail from "./day";
 import "./index.less";
 
@@ -36,6 +40,8 @@ interface IState {
     days: IDayEvent[];
     now: moment.Moment;
     currIndex: number;
+    hasSetName: boolean;
+    userName: string;
 }
 
 moment.locale("zh-cn");
@@ -60,11 +66,15 @@ function generatePaddedMonth(start: moment.Moment, end: moment.Moment) {
 /**
  * calendone part
  */
-class Calendone extends Component {
+class Calendone extends Component<RouteComponentProps<{}>, IState> {
+    public static contextType = StoreContext;
+
     public readonly state: IState = {
         days: [],
         now: moment(),
-        currIndex: -1
+        currIndex: -1,
+        hasSetName: !!localStorage.getItem(userNameStorageKey),
+        userName: ""
     };
 
     public async componentDidMount() {
@@ -148,7 +158,7 @@ class Calendone extends Component {
     }
 
     public render() {
-        const { now, days, currIndex } = this.state;
+        const { now, days, currIndex, hasSetName, userName } = this.state;
         const weeks = chunk(days, 7);
         return (
             <div className="calendone">
@@ -207,6 +217,29 @@ class Calendone extends Component {
                         onClose={this.handleCloseDrawer}
                     />
                 </Drawer>
+                <Dialog
+                    wrapClassName="common-dialog-wrap"
+                    className="common-dialog set-user-name"
+                    visible={!hasSetName}
+                    animation="zoom"
+                    maskAnimation="fade"
+                    closable={false}
+                    onClose={this.handleCloseDialog}
+                    destroyOnClose={true}
+                >
+                    <div className="close-btn iconfont" onClick={this.handleCloseDialog} />
+                    <div className="title">How can I call you?</div>
+                    <div className="hint">不超过20字符，随时可以在「User」中修改</div>
+                    <input
+                        className={classNames("user-name", { error: !userName.trim() })}
+                        placeholder="e.g. Bebop Ed"
+                        maxLength={20}
+                        onChange={this.handleUserNameChange}
+                    />
+                    <Button type="primary" onClick={this.handleSetUserName} disabled={!userName.trim()}>
+                        确 认
+                    </Button>
+                </Dialog>
             </div>
         );
     }
@@ -284,6 +317,28 @@ class Calendone extends Component {
 
     private handleCloseDrawer = () => {
         this.setState({ currIndex: -1 });
+    };
+
+    private handleCloseDialog = () => {
+        localStorage.setItem(userNameStorageKey, "");
+        this.setState({ hasSetName: true });
+    };
+
+    private handleUserNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        this.setState({ userName: e.currentTarget.value });
+    };
+
+    private handleSetUserName = () => {
+        const newName = this.state.userName.trim();
+        if (!newName) {
+            return;
+        }
+        this.context.setUser &&
+            this.context.setUser({
+                name: newName
+            });
+        localStorage.setItem(userNameStorageKey, newName);
+        this.setState({ hasSetName: true });
     };
 }
 

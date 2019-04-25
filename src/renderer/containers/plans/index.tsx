@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { RouteComponentProps } from "react-router";
 import classNames from "classnames";
 import moment from "moment";
 import produce from "immer";
@@ -25,7 +26,7 @@ interface IState {
 /**
  * plans part
  */
-class Plans extends Component {
+class Plans extends Component<RouteComponentProps<{}>, IState> {
     public readonly state: IState = {
         showFinished: false,
         newContent: "",

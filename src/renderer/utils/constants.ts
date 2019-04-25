@@ -23,3 +23,5 @@ export const moods = {
     7: "😷",
     8: "😱"
 };
+
+export const userNameStorageKey = "_calendone_user_name";

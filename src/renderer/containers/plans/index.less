@@ -185,19 +185,8 @@
     .rc-dialog-content {
         position: relative;
         padding: 20px;
-        .close-btn {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            line-height: 24px;
-            color: @f1;
-            cursor: pointer;
-            &:hover {
-                color: @neon;
-            }
-            &:after {
-                content: '\e63e';
-            }
+        .close-btn:hover {
+            color: @neon;
         }
         h2 {
             margin-bottom: 12px;

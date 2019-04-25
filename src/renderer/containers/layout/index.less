@@ -25,6 +25,9 @@
     .iconfont.stats:after {
         content: '\e8de';
     }
+    .iconfont.user:after {
+        content: '\e608';
+    }
     .nav-tab {
         position: relative;
         height: 48px;
@@ -83,10 +86,14 @@ header {
             font-family: "iconfont";
             font-size: 16px;
         }
+        &:hover {
+            color: @f0;
+        }
     }
     .user-info {
         position: relative;
         padding: 0 18px;
+        cursor: pointer;
         &:after {
             content: '';
             position: absolute;
@@ -95,6 +102,9 @@ header {
             height: 16px;
             width: 1px;
             background-color: @b1;
+        }
+        &:hover {
+            color: @f0;
         }
         .capital {
             display: inline-block;
