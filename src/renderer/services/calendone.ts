@@ -2,6 +2,7 @@
  * @desc use async/await paradigm instead of callback paradigm
  */
 import Db, { IDay, ITrackEvent } from "./db";
+import { currMonth, lastMonth, currYear } from "@/utils";
 
 /**
  * @desc get Events between certain moments
@@ -73,4 +74,46 @@ export async function updateCertainDay(params: Partial<IDay>, ts: number, id?: n
         mood: params.mood || 0,
         events: params.events || []
     });
+}
+
+/*------------- stats --------------*/
+function eventsInBound(start: number, end: number, type?: number) {
+    return new Promise<number>(async (resolve, reject) => {
+        try {
+            await Db.calendar
+                .where("date")
+                .between(start, end, true, true)
+                .toArray(res => {
+                    const count = res.reduce((prev, curr) => {
+                        const events = type ? curr.events.filter(event => event.type === type) : curr.events;
+                        return prev + events.length;
+                    }, 0);
+                    resolve(count);
+                });
+        } catch (err) {
+            reject(err);
+        }
+    });
+}
+export async function eventsInCurrMonth(type?: number) {
+    const [currMonthStart, currMonthEnd] = currMonth();
+    const [lastMonthStart, lastMonthEnd] = lastMonth();
+    return await Promise.all([
+        eventsInBound(currMonthStart, currMonthEnd, type),
+        eventsInBound(lastMonthStart, lastMonthEnd, type)
+    ]);
+}
+
+export async function eventsInCurrYear(type?: number) {
+    const [currYearStart, currYearEnd] = currYear();
+    return await eventsInBound(currYearStart, currYearEnd, type);
+}
+
+export async function moodsInCurrMonth() {
+    const [currMonthStart, currMonthEnd] = currMonth();
+    const days = await getEventsBetween(currMonthStart, currMonthEnd);
+    return days.map(({ mood, date }) => ({
+        mood,
+        date
+    }));
 }

@@ -8,6 +8,9 @@ const User: React.FunctionComponent<{}> = props => {
     function nameSubmit() {
         if (name.trim()) {
             setUser({ name: name.trim() });
+            initName.current = name.trim();
+        } else {
+            setName(initName.current);
         }
     }
     function nameChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -37,6 +40,7 @@ const User: React.FunctionComponent<{}> = props => {
 
     const inputRef = useRef<HTMLInputElement>(null);
     const { userInfo, setUser } = useContext(StoreContext) as any;
+    const initName = useRef<string>(userInfo.name || "Bebop Ed");
     const [name, setName] = useState<string>(userInfo.name);
 
     return (
@@ -54,7 +58,7 @@ const User: React.FunctionComponent<{}> = props => {
                     </aside>
                 </div>
                 <input
-                    defaultValue={userInfo.name}
+                    value={name}
                     placeholder="e.g. Bebop Ed"
                     maxLength={20}
                     className={classNames("user-name", {

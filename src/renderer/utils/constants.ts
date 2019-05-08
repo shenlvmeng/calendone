@@ -23,6 +23,14 @@ export const moods = {
     7: "😷",
     8: "😱"
 };
+export const moodsCategory = {
+    unknown: 0,
+    happy: 1,
+    unhappy: 2,
+    neutral: 3,
+    low: 4,
+    scared: 5
+};
 
 export const userNameStorageKey = "_calendone_user_name";
 export const userAvatarStorageKey = "_calendone_user_avatar";

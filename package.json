@@ -82,6 +82,7 @@
         "rc-calendar": "^9.12.4",
         "rc-dialog": "^7.3.1",
         "rc-drawer": "^1.7.7",
+        "rc-tabs": "^9.6.3",
         "react": "^16.8.6",
         "react-dom": "^16.6.3",
         "react-hot-loader": "^4.3.12",

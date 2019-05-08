@@ -1,0 +1,220 @@
+@import '../../style/color.less';
+
+.stats-container {
+    height: 100%;
+    padding: 40px 32px;
+    h1 {
+        font-family: 'Museo';
+    }
+    .rc-tabs-top {
+        border: none;
+    }
+    .stats-content {
+        margin-top: 16px;
+    }
+    .stats-common-content {
+        padding: 32px 0;
+    }
+    .indicators {
+        display: flex;
+        .indicator-item {
+            position: relative;
+            flex: 1;
+            width: 220px;
+            margin: 0 12px;
+            padding: 20px 16px;
+            border: 1px solid @b0;
+            border-radius: 4px;
+            &:first-child {
+                margin-left: 0;
+            }
+            &:last-child {
+                margin-right: 0;
+            }
+        }
+        .indicator-name {
+            margin-bottom: 12px;
+            font-size: 18px;
+            font-weight: 300;
+            color: @f1;
+        }
+        .indicator-content {
+            height: 42px;
+            line-height: 42px;
+            font-family: 'Museo';
+            font-size: 32px;
+        }
+        .indicator-delta {
+            float: right;
+            padding: 8px 14px;
+            border-radius: 4px;
+            font-size: 16px;
+            line-height: 20px;
+            color: @main;
+            background-color: @main-bkg;
+            &.up, &.down {
+                padding: 10px;
+                &:before {
+                    content: '\e785';
+                    display: inline-block;
+                    font-family: 'iconfont';
+                    margin-right: 4px;
+                }
+            }
+            &.up {
+                color: @info;
+                background-color: @info-bkg;
+                &:before {
+                    transform: rotate(180deg);
+                }
+            }
+            &.down {
+                color: @error;
+                background-color: @error-bkg;
+            }
+        }
+        aside {
+            position: absolute;
+            right: 12px;
+            top: -8px;
+            padding: 4px;
+            font-size: 12px;
+            line-height: 12px;
+            border-radius: 2px;
+            color: @warn;
+            background-color: @warn-bkg;
+        }
+    }
+    .moods {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        margin-top: 20px;
+        &-header {
+            padding: 20px;
+            font-size: 18px;
+            font-weight: 300;
+            color: @f1;
+        }
+        &-dates {
+            max-width: 600px;
+            margin: 0 auto 12px;
+        }
+        &-weekdays {
+            margin-bottom: 12px;
+            span {
+                display: inline-block;
+                vertical-align: top;
+                width: 14.2%;
+                font-size: 12px;
+                text-align: center;
+                color: @f3;
+            }
+        }
+        &-calendar, &-stat {
+            border: 1px solid @b0;
+            border-radius: 4px;
+        }
+        &-calendar {
+            flex: 1;
+        }
+        &-stat {
+            min-width: 220px;
+            margin-left: 24px;
+        }
+        &-day {
+            display: inline-block;
+            vertical-align: top;
+            width: 83px;
+            height: 83px;
+            margin: 1px;
+            font-size: 30px;
+            line-height: 83px;
+            text-align: center;
+            background-color: @bg1;
+            .content {
+                opacity: 0;
+                transition: opacity .4s;
+            }
+            &:hover {
+                .content {
+                    opacity: 1;
+                }
+            }
+            &.invisible {
+                opacity: 0;
+                pointer-events: none;
+            }
+            &.happy {
+                background-color: @info-bkg;
+            }
+            &.unhappy {
+                background-color: @error-bkg;
+            }
+            &.low {
+                background-color: @warn-bkg;
+            }
+            &.neutral {
+                background-color: @main-bkg;
+            }
+            &.scared {
+                background-color: @neon-bkg;
+            }
+        }
+        &-hints {
+            margin: 24px 0 32px;
+            text-align: center;
+        }
+        &-hint {
+            display: inline-block;
+            margin: 0 16px;
+            font-size: 12px;
+            color: @f1;
+            .hint {
+                display: inline-block;
+                vertical-align: middle;
+                width: 16px;
+                height: 16px;
+                margin-right: 6px;
+                border-radius: 2px;
+                background-color: @bg1;
+                &.happy {
+                    background-color: @info-bkg;
+                }
+                &.unhappy {
+                    background-color: @error-bkg;
+                }
+                &.low {
+                    background-color: @warn-bkg;
+                }
+                &.neutral {
+                    background-color: @main-bkg;
+                }
+                &.scared {
+                    background-color: @neon-bkg;
+                }
+            }
+        }
+        &-item-list {
+            padding: 0 20px;
+        }
+        &-item {
+            padding: 10px 10px 10px 4px;
+            border-bottom: 1px solid @b0;
+            font-size: 20px;
+            &:hover {
+                background-color: @bg3;
+            }
+            &:last-child {
+                border: none;
+            }
+        }
+        &-count {
+            float: right;
+            font-size: 16px;
+            line-height: 30px;
+            color: @f1;
+            font-family: 'Museo';
+        }
+    }
+}
