@@ -117,3 +117,12 @@ export async function moodsInCurrMonth() {
         date
     }));
 }
+
+export async function moodsInCurrYear() {
+    const [currYearStart, currYearEnd] = currYear();
+    const days = await getEventsBetween(currYearStart, currYearEnd);
+    return days.map(({ mood, date }) => ({
+        mood,
+        date
+    }));
+}

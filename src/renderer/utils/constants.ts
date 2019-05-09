@@ -1,3 +1,4 @@
+export const oneDay = 1000 * 86400;
 export const planPriority = {
     1: "普通",
     2: "重要",

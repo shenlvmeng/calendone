@@ -217,4 +217,87 @@
             font-family: 'Museo';
         }
     }
+    .year-stats .moods {
+        flex-flow: row wrap;
+        &-stat {
+            width: 100%;
+            margin: 20px 0;
+        }
+        &-months {
+            margin: 0 auto 6px;
+            padding-left: 50px;
+            max-width: 860px;
+            span {
+                display: inline-block;
+                vertical-align: top;
+                width: 8.3%;
+                font-size: 10px;
+                color: @f3;
+            }
+        }
+        &-dates {
+            position: relative;
+            max-width: 850px;
+            padding: 0 12px 0 42px;
+        }
+        &-weekdays {
+            position: absolute;
+            top: 0;
+            left: 12px;
+            height: 100%;
+            width: 30px;
+            div {
+                height: 28.6%;
+                font-size: 10px;
+                color: @f3;
+                &:last-child {
+                    height: 14.2%;
+                }
+            }
+        }
+        &-days {
+            display: flex;
+            flex-flow: column wrap;
+            align-content: flex-start;
+            flex: 1;
+            height: 105px;
+        }
+        &-day {
+            width: 13px;
+            height: 13px;
+            padding-left: 1px;
+            font-size: 10px;
+            line-height: 14px;
+            background-color: @bg2;
+            &.happy {
+                background-color: @info-bkg;
+            }
+            &.unhappy {
+                background-color: @error-bkg;
+            }
+            &.low {
+                background-color: @warn-bkg;
+            }
+            &.neutral {
+                background-color: @main-bkg;
+            }
+            &.scared {
+                background-color: @neon-bkg;
+            }
+            &.after {
+                background-color: @bg1;
+                pointer-events: none;
+            }
+        }
+        &-item {
+            display: inline-block;
+            width: 25%;
+            padding: 10px 25px;
+            border: none;
+            border-radius: 4px;
+        }
+        &-item-list {
+            margin-bottom: 20px;
+        }
+    }
 }
