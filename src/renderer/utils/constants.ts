@@ -11,6 +11,13 @@ export const planStage = {
     3: "已中止"
 };
 
+export const periods = {
+    1: "全天",
+    2: "早上",
+    3: "下午",
+    4: "夜晚"
+};
+
 export const trackStage = planStage;
 
 export const moods = {

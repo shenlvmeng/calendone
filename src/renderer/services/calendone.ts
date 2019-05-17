@@ -7,6 +7,19 @@ import { currMonth, lastMonth, currYear } from "@/utils";
 /**
  * @desc get Events between certain moments
  */
+export async function getAllEvents() {
+    return new Promise<IDay[]>(async (resolve, reject) => {
+        try {
+            await Db.calendar.toArray(resolve);
+        } catch (err) {
+            reject(err);
+        }
+    });
+}
+
+/**
+ * @desc get Events between certain moments
+ */
 export async function getEventsBetween(start: number, end: number) {
     return new Promise<IDay[]>(async (resolve, reject) => {
         try {
@@ -77,6 +90,9 @@ export async function updateCertainDay(params: Partial<IDay>, ts: number, id?: n
 }
 
 /*------------- stats --------------*/
+/**
+ * @desc get sum of Events between certain bound
+ */
 function eventsInBound(start: number, end: number, type?: number) {
     return new Promise<number>(async (resolve, reject) => {
         try {
@@ -121,8 +137,10 @@ export async function moodsInCurrMonth() {
 export async function moodsInCurrYear() {
     const [currYearStart, currYearEnd] = currYear();
     const days = await getEventsBetween(currYearStart, currYearEnd);
-    return days.map(({ mood, date }) => ({
-        mood,
-        date
-    }));
+    return days
+        .filter(day => day.mood > 0)
+        .map(({ mood, date }) => ({
+            mood,
+            date
+        }));
 }

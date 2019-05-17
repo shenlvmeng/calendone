@@ -5,6 +5,7 @@ import ScrollableInkTabBar from "rc-tabs/lib/ScrollableInkTabBar";
 
 import MonthStat from "./month";
 import YearStat from "./year";
+import AllStat from "./all";
 import "rc-tabs/assets/index.css";
 import "./index.less";
 
@@ -33,8 +34,8 @@ const Stats: React.FunctionComponent<{}> = props => {
                     <TabPane tab="本年" key="year">
                         <YearStat />
                     </TabPane>
-                    <TabPane tab="总数" key="total">
-                        content3
+                    <TabPane tab="总计" key="total">
+                        <AllStat />
                     </TabPane>
                 </Tabs>
             </div>

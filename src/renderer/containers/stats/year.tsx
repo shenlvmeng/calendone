@@ -136,8 +136,7 @@ class YearStats extends Component<{}, IState> {
                                         return (
                                             <div
                                                 className={classNames("moods-day", {
-                                                    invisible:
-                                                        index < firstWeekday || index >= totalDays + firstWeekday,
+                                                    invisible: index < firstWeekday || index > totalDays + firstWeekday,
                                                     after: index > currentDays,
                                                     happy: mapMood(currMood) === moodsCategory.happy,
                                                     neutral: mapMood(currMood) === moodsCategory.neutral,
@@ -180,19 +179,21 @@ class YearStats extends Component<{}, IState> {
                             </span>
                         </div>
                     </div>
-                    <div className="moods-stat">
-                        <div className="moods-header">情绪比例</div>
-                        <div className="moods-item-list">
-                            {sortMood(pureMoods).map((mood, index) => (
-                                <div className="moods-item" key={index}>
-                                    {moods[mood.value]}
-                                    <span className="moods-count">
-                                        {mood.count} / {((mood.count / currMoods.length) * 100).toFixed(0)}%
-                                    </span>
-                                </div>
-                            ))}
+                    {pureMoods.length ? (
+                        <div className="moods-stat">
+                            <div className="moods-header">情绪比例</div>
+                            <div className="moods-item-list">
+                                {sortMood(pureMoods).map((mood, index) => (
+                                    <div className="moods-item" key={index}>
+                                        {moods[mood.value]}
+                                        <span className="moods-count">
+                                            {mood.count} / {((mood.count / currMoods.length) * 100).toFixed(0)}%
+                                        </span>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
-                    </div>
+                    ) : null}
                 </section>
             </div>
         );

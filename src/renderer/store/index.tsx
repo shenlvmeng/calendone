@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import produce from "immer";
 
 import { userNameStorageKey, userAvatarStorageKey } from "@/utils/constants";
+import { noop } from "@/utils";
 
 interface IUser {
     avatar: string;
@@ -10,18 +11,19 @@ interface IUser {
 
 interface IStore {
     userInfo: IUser;
+    setUser: Function;
 }
 
-interface IReducer {
-    [key: string]: Function;
-}
-
-type IState = IStore | IReducer;
-
-const StoreContext = React.createContext<IState>({});
+const StoreContext = React.createContext<IStore>({
+    userInfo: {
+        avatar: "",
+        name: ""
+    },
+    setUser: noop
+});
 
 const Provider: React.FunctionComponent<{}> = props => {
-    const [store, setStore] = useState<IState>({
+    const [store, setStore] = useState<IStore>({
         setUser,
         userInfo: {
             avatar: localStorage.getItem(userAvatarStorageKey) || "",
@@ -31,7 +33,7 @@ const Provider: React.FunctionComponent<{}> = props => {
 
     function setUser(user: Partial<IUser>) {
         setStore(
-            produce((draft: IState) => {
+            produce((draft: IStore) => {
                 draft.userInfo = {
                     ...draft.userInfo,
                     ...user

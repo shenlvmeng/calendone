@@ -3,14 +3,14 @@ import Dexie from "dexie";
 const DB_NAME = "calendone";
 const CURRENT_VERSION = 1;
 
-const enum PlanPriority {
+export const enum PlanPriority {
     Unknown = 0,
     Normal = 1,
     Important = 2,
     Urgent = 3
 }
 
-const enum PlanStage {
+export const enum PlanStage {
     Unknown = 0,
     Doing = 1,
     Done = 2,
@@ -31,7 +31,7 @@ export const enum EventType {
     Tracking = 2
 }
 
-const enum TrackStage {
+export const enum TrackStage {
     Unknown = 0,
     Doing = 1,
     Done = 2,
@@ -48,6 +48,12 @@ const enum Mood {
     Sleepy = 6,
     Sick = 7,
     Fearful = 8
+}
+
+export const enum PortType {
+    Unknown = 0,
+    Import = 1,
+    Export = 2
 }
 
 export interface IPlan {
@@ -86,22 +92,31 @@ export interface ITrackEvent {
     update_time: number;
 }
 
+export interface IPortLog {
+    id?: number;
+    type: PortType;
+    create_time: number;
+}
+
 class Db extends Dexie {
     plans: Dexie.Table<IPlan, number>;
     calendar: Dexie.Table<IDay, number>;
     trackEvents: Dexie.Table<ITrackEvent, number>;
+    portLogs: Dexie.Table<IPortLog, number>;
 
     constructor() {
         super(DB_NAME);
         this.version(CURRENT_VERSION).stores({
             plans: "++id, priority, stage, deadline, update_time",
             calendar: "++id, date, mood",
-            trackEvents: "++id, stage"
+            trackEvents: "++id, stage",
+            portLogs: "++id, type"
         });
 
         this.plans = this.table("plans");
         this.calendar = this.table("calendar");
         this.trackEvents = this.table("trackEvents");
+        this.portLogs = this.table("portLogs");
     }
 
     public output() {
