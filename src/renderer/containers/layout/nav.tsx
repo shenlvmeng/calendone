@@ -3,6 +3,8 @@ import { Location } from "history";
 import { Link } from "react-router-dom";
 import classNames from "classnames";
 
+import Icon from "@/components/icon";
+
 interface IProps {
     location: Location<{}>;
 }
@@ -14,12 +16,12 @@ const Nav: React.FunctionComponent<IProps> = (props: IProps) => {
             <div className={classNames("nav-tab", { active: currPath === "/" })}>
                 {currPath === "/" ? (
                     <div className="tab-content">
-                        <i className="iconfont calendar" />
+                        <Icon type="calendar" />
                         Calendar
                     </div>
                 ) : (
                     <Link to="/">
-                        <i className="iconfont calendar" />
+                        <Icon type="calendar" />
                         Calendar
                     </Link>
                 )}
@@ -27,12 +29,12 @@ const Nav: React.FunctionComponent<IProps> = (props: IProps) => {
             <div className={classNames("nav-tab", { active: currPath === "/plans" })}>
                 {currPath === "/plans" ? (
                     <div className="tab-content">
-                        <i className="iconfont plans" />
+                        <Icon type="plans" />
                         Plans
                     </div>
                 ) : (
                     <Link to="/plans">
-                        <i className="iconfont plans" />
+                        <Icon type="plans" />
                         Plans
                     </Link>
                 )}
@@ -40,26 +42,39 @@ const Nav: React.FunctionComponent<IProps> = (props: IProps) => {
             <div className={classNames("nav-tab", { active: currPath === "/stats" })}>
                 {currPath === "/stats" ? (
                     <div className="tab-content">
-                        <i className="iconfont stats" />
+                        <Icon type="stats" />
                         Statistics
                     </div>
                 ) : (
                     <Link to="/stats">
-                        <i className="iconfont stats" />
+                        <Icon type="stats" />
                         Statistics
                     </Link>
                 )}
             </div>
             <section className="rare-operation">
+                <div className={classNames("nav-tab", { active: currPath === "/data" })}>
+                    {currPath === "/data" ? (
+                        <div className="tab-content">
+                            <Icon type="data" />
+                            Data
+                        </div>
+                    ) : (
+                        <Link to="/data">
+                            <Icon type="data" />
+                            Data
+                        </Link>
+                    )}
+                </div>
                 <div className={classNames("nav-tab", { active: currPath === "/user" })}>
                     {currPath === "/user" ? (
                         <div className="tab-content">
-                            <i className="iconfont user" />
+                            <Icon type="user" />
                             User
                         </div>
                     ) : (
                         <Link to="/user">
-                            <i className="iconfont user" />
+                            <Icon type="user" />
                             User
                         </Link>
                     )}

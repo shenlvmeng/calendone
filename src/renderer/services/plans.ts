@@ -32,7 +32,7 @@ export async function countPlans(today?: boolean) {
                 await Db.plans
                     .where("stage")
                     .equals(1)
-                    .filter(val => val.deadline <= +moment().endOf("day"))
+                    .filter(val => !!val.deadline && val.deadline <= +moment().endOf("day"))
                     .count(resolve);
             } else {
                 await Db.plans

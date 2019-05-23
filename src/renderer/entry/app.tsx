@@ -4,7 +4,9 @@ import { hot } from "react-hot-loader";
 
 import Layout from "../containers/layout";
 import Provider from "../store";
+
 import "../style/common.less";
+import "../style/iconfont.less";
 
 const Home = function(): JSX.Element {
     return (

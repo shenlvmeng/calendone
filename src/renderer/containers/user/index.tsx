@@ -1,47 +1,55 @@
-import React, { useState, useContext, useRef } from "react";
+import React, { useState, useContext, useRef, useCallback } from "react";
 import classNames from "classnames";
 
 import { StoreContext } from "@/store";
 import "./index.less";
 
 const User: React.FunctionComponent<{}> = props => {
-    function nameSubmit() {
+    const inputRef = useRef<HTMLInputElement>(null);
+    const { userInfo, setUser } = useContext(StoreContext) as any;
+    const initName = useRef<string>(userInfo.name || "Bebop Ed");
+    const [name, setName] = useState<string>(userInfo.name);
+
+    const nameSubmit = useCallback(() => {
         if (name.trim()) {
             setUser({ name: name.trim() });
             initName.current = name.trim();
         } else {
             setName(initName.current);
         }
-    }
-    function nameChange(e: React.ChangeEvent<HTMLInputElement>) {
-        setName(e.currentTarget.value);
-    }
-    function pressEnter(e: React.KeyboardEvent<HTMLInputElement>) {
-        if (e.key === "Enter") {
-            e.currentTarget.blur();
-            nameSubmit();
-        }
-    }
-    function fileUpload() {
+    }, [name, initName]);
+    const nameChange = useCallback(
+        (e: React.ChangeEvent<HTMLInputElement>) => {
+            setName(e.currentTarget.value);
+        },
+        [setName]
+    );
+    const pressEnter = useCallback(
+        (e: React.KeyboardEvent<HTMLInputElement>) => {
+            if (e.key === "Enter") {
+                e.currentTarget.blur();
+                nameSubmit();
+            }
+        },
+        [nameSubmit]
+    );
+    const fileUpload = useCallback(() => {
         inputRef.current && inputRef.current.click();
-    }
-    function fileChange(e: React.ChangeEvent<HTMLInputElement>) {
-        const files = e.currentTarget.files;
-        if (files) {
-            const reader = new FileReader();
-            reader.onload = (event: any) => {
-                console.log(event.target.result);
-                setUser({ avatar: event.target.result });
-            };
-            reader.readAsDataURL(files[0]);
-            e.currentTarget.value = "";
-        }
-    }
-
-    const inputRef = useRef<HTMLInputElement>(null);
-    const { userInfo, setUser } = useContext(StoreContext) as any;
-    const initName = useRef<string>(userInfo.name || "Bebop Ed");
-    const [name, setName] = useState<string>(userInfo.name);
+    }, [inputRef]);
+    const fileChange = useCallback(
+        (e: React.ChangeEvent<HTMLInputElement>) => {
+            const files = e.currentTarget.files;
+            if (files) {
+                const reader = new FileReader();
+                reader.onload = (event: any) => {
+                    setUser({ avatar: event.target.result });
+                };
+                reader.readAsDataURL(files[0]);
+                e.currentTarget.value = "";
+            }
+        },
+        [setUser]
+    );
 
     return (
         <div className="user-center-wrap">

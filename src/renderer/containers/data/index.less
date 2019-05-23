@@ -1,0 +1,104 @@
+@import '../../style/color.less';
+@import '../../style/common.less';
+
+@keyframes spin {
+    from {
+        transform: rotate(0);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.db-operation {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    &-item {
+        height: 100px;
+        padding: 0 50px;
+    }
+    &-btn {
+        button {
+            display: inline-block;
+            padding: 16px 20px;
+            width: 160px;
+            border: 1px solid @b1;
+            border-radius: 4px;
+            font-size: 24px;
+            font-weight: 300;
+            text-align: left;
+            color: @f0;
+            background-color: @bg0;
+            outline: none;
+            transition: all 0.4s;
+            &:hover {
+                border-color: @main;
+                color: @main;
+                background-color: @main-bkg;
+                .hint {
+                    color: @main;
+                }
+            }
+        }
+        .hint {
+            margin-top: 6px;
+            font-size: 12px;
+            color: @f1;
+        }
+        .iconfont {
+            margin-right: 12px;
+            font-size: 20px;
+        }
+    }
+    &-divider {
+        display: inline-block;
+        vertical-align: middle;
+        width: 1px;
+        height: 60px;
+        background-color: @b0;
+    }
+    &-extra {
+        margin-top: 8px;
+        font-size: 12px;
+        color: @f2;
+    }
+}
+.loading-modal-wrap {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+    .loading-mask {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.8);
+    }
+    .loading-message {
+        height: 120px;
+        text-align: center;
+        z-index: 1;
+        .iconfont {
+            display: inline-block;
+            font-size: 72px;
+            color: @main;
+            animation: spin 1.2s infinite;
+            animation-fill-mode: forwards;
+        }
+        p {
+            margin-top: 16px;
+            font-size: 16px;
+            color: @f0;
+            font-family: @main-font-family;
+        }
+    }
+}

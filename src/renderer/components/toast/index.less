@@ -1,0 +1,52 @@
+.rc-notification {
+    position: fixed;
+    z-index: 99999;
+}
+.rc-notification-notice {
+    position: relative;
+    display: block;
+    line-height: 20px;
+    vertical-align: middle;
+    margin: 10px 0;
+    padding: 16px 20px;
+    border-radius: 4px;
+    color: #fff;
+    background: rgba(0, 0, 0, .67);
+}
+.rc-notification-fade-enter {
+    opacity: 0;
+    animation-duration: 0.3s;
+    animation-fill-mode: both;
+    animation-timing-function: cubic-bezier(0.55, 0, 0.55, 0.2);
+    animation-play-state: paused;
+}
+.rc-notification-fade-leave {
+    animation-duration: 0.3s;
+    animation-fill-mode: both;
+    animation-timing-function: cubic-bezier(0.55, 0, 0.55, 0.2);
+    animation-play-state: paused;
+}
+.rc-notification-fade-enter.rc-notification-fade-enter-active {
+    animation-name: rcNotificationFadeIn;
+    animation-play-state: running;
+}
+.rc-notification-fade-leave.rc-notification-fade-leave-active {
+    animation-name: rcDialogFadeOut;
+    animation-play-state: running;
+}
+@keyframes rcNotificationFadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+@keyframes rcDialogFadeOut {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}

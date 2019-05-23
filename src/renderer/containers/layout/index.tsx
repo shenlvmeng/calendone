@@ -8,6 +8,7 @@ import Calendone from "../calendone";
 import Plans from "../plans";
 import Stats from "../stats";
 import User from "../user";
+import Data from "../data";
 import "./index.less";
 
 /**
@@ -25,6 +26,7 @@ const BasicLayout: React.FunctionComponent<RouteComponentProps<{}>> = props => {
                         <Route path="/plans" component={Plans} />
                         <Route path="/stats" component={Stats} />
                         <Route path="/user" component={User} />
+                        <Route path="/data" component={Data} />
                     </Switch>
                 </div>
             </div>

@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import moment from "moment";
 import classNames from "classnames";
-import produce from "immer";
 
 import { EventPeriod, IEvent } from "@/services/db";
 import Mood from "@/components/day-mood";

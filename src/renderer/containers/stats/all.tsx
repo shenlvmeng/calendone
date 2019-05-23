@@ -5,8 +5,8 @@ import groupBy from "lodash/groupBy";
 
 import { getAllEvents, getTrackEvents } from "@/services/calendone";
 import { getPlans } from "@/services/plans";
-import { getPortLogs } from "@/services/portLogs";
-import { IDay, IPlan, PortType, PlanStage, TrackStage, EventPeriod, PlanPriority } from "@/services/db";
+import { getLogs } from "@/services/data";
+import { IDay, IPlan, OpType, PlanStage, TrackStage, EventPeriod, PlanPriority } from "@/services/db";
 import { moods, periods, userNameStorageKey, userAvatarStorageKey } from "@/utils/constants";
 
 interface IState {
@@ -56,7 +56,7 @@ class AllStats extends Component<{}, IState> {
     public plansRaw: IPlan[] = [];
 
     public async componentDidMount() {
-        await Promise.all([this.parseDays(), this.parsePlans(), this.parseTrackEvents(), this.parseImportExportLogs()]);
+        await Promise.all([this.parseDays(), this.parsePlans(), this.parseTrackEvents(), this.parseDbLogs()]);
         this.computeProgress();
     }
 
@@ -149,17 +149,17 @@ class AllStats extends Component<{}, IState> {
         });
     }
 
-    public async parseImportExportLogs() {
-        const logs = await getPortLogs();
+    public async parseDbLogs() {
+        const logs = await getLogs();
         let importCount = 0;
         let exportCount = 0;
         let lastImportTime = 0;
         let lastExportTime = 0;
         logs.forEach(log => {
-            if (log.type === PortType.Import) {
+            if (log.type === OpType.Import) {
                 importCount += 1;
                 lastImportTime = log.create_time;
-            } else if (log.type === PortType.Export) {
+            } else if (log.type === OpType.Export) {
                 exportCount += 1;
                 lastExportTime = log.create_time;
             }
@@ -346,16 +346,16 @@ class AllStats extends Component<{}, IState> {
                         <span className="divider-content">Import / Export</span>
                     </div>
                     <div className="stats-item">
-                        导出
+                        备份
                         <span className="stats-count">{exportCount} 次</span>
                     </div>
                     <div className="stats-item">
-                        导入
+                        恢复
                         <span className="stats-count">{importCount} 次</span>
                     </div>
                     {exportCount > 0 ? (
                         <div className="stats-item">
-                            上次导出
+                            上次备份
                             <span className="stats-count">
                                 {moment.duration(Date.now() - lastExportTime).humanize(true)}
                             </span>
@@ -363,7 +363,7 @@ class AllStats extends Component<{}, IState> {
                     ) : null}
                     {importCount > 0 ? (
                         <div className="stats-item">
-                            上次导入
+                            上次恢复
                             <span className="stats-count">
                                 {moment.duration(Date.now() - lastImportTime).humanize(true)}
                             </span>

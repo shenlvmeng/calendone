@@ -64,5 +64,5 @@ export const sortMood = (moods: number[]) => {
             count: map[mood].length
         });
     }
-    return resultArr.sort((a, b) => b.count - a.count);
+    return resultArr.sort((a, b) => b.count - a.count).filter(mood => +mood.value);
 };

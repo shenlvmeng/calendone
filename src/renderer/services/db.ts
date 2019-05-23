@@ -50,7 +50,7 @@ const enum Mood {
     Fearful = 8
 }
 
-export const enum PortType {
+export const enum OpType {
     Unknown = 0,
     Import = 1,
     Export = 2
@@ -92,9 +92,9 @@ export interface ITrackEvent {
     update_time: number;
 }
 
-export interface IPortLog {
+export interface IDbOperationLog {
     id?: number;
-    type: PortType;
+    type: OpType;
     create_time: number;
 }
 
@@ -102,7 +102,7 @@ class Db extends Dexie {
     plans: Dexie.Table<IPlan, number>;
     calendar: Dexie.Table<IDay, number>;
     trackEvents: Dexie.Table<ITrackEvent, number>;
-    portLogs: Dexie.Table<IPortLog, number>;
+    opLogs: Dexie.Table<IDbOperationLog, number>;
 
     constructor() {
         super(DB_NAME);
@@ -110,17 +110,13 @@ class Db extends Dexie {
             plans: "++id, priority, stage, deadline, update_time",
             calendar: "++id, date, mood",
             trackEvents: "++id, stage",
-            portLogs: "++id, type"
+            opLogs: "++id, type"
         });
 
         this.plans = this.table("plans");
         this.calendar = this.table("calendar");
         this.trackEvents = this.table("trackEvents");
-        this.portLogs = this.table("portLogs");
-    }
-
-    public output() {
-        // TODO
+        this.opLogs = this.table("opLogs");
     }
 }
 
