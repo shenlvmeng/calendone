@@ -47,7 +47,6 @@ export async function exportTo(log: (message: string) => void) {
             const plans = await getPlans();
             data.plans = plans.reverse();
             log("完成计划备份");
-            console.log("...");
         })()
     ]);
     await Db.opLogs.add({

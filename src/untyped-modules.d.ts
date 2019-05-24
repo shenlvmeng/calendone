@@ -5,3 +5,5 @@ declare module "rc-tabs";
 declare module "rc-tabs/lib/*";
 
 declare module "rc-notification";
+
+declare module "rc-switch";

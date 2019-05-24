@@ -39,6 +39,19 @@ const Nav: React.FunctionComponent<IProps> = (props: IProps) => {
                     </Link>
                 )}
             </div>
+            <div className={classNames("nav-tab", { active: currPath === "/track" })}>
+                {currPath === "/track" ? (
+                    <div className="tab-content">
+                        <Icon type="track" />
+                        Track Events
+                    </div>
+                ) : (
+                    <Link to="/track">
+                        <Icon type="track" />
+                        Track Events
+                    </Link>
+                )}
+            </div>
             <div className={classNames("nav-tab", { active: currPath === "/stats" })}>
                 {currPath === "/stats" ? (
                     <div className="tab-content">

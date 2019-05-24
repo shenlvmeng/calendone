@@ -83,6 +83,7 @@
         "rc-dialog": "^7.3.1",
         "rc-drawer": "^1.7.7",
         "rc-notification": "^3.3.1",
+        "rc-switch": "^1.9.0",
         "rc-tabs": "^9.6.3",
         "react": "^16.8.6",
         "react-dom": "^16.6.3",

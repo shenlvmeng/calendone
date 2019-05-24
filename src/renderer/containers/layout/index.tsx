@@ -9,6 +9,7 @@ import Plans from "../plans";
 import Stats from "../stats";
 import User from "../user";
 import Data from "../data";
+import TrackEvents from "../track";
 import "./index.less";
 
 /**
@@ -27,6 +28,7 @@ const BasicLayout: React.FunctionComponent<RouteComponentProps<{}>> = props => {
                         <Route path="/stats" component={Stats} />
                         <Route path="/user" component={User} />
                         <Route path="/data" component={Data} />
+                        <Route path="/track" component={TrackEvents} />
                     </Switch>
                 </div>
             </div>

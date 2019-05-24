@@ -4,12 +4,12 @@
 
 @font-face {
     font-family: 'iconfont';  /* project id 1088790 */
-    src: url('//at.alicdn.com/t/font_1088790_vqdeypgh0ha.eot');
-    src: url('//at.alicdn.com/t/font_1088790_vqdeypgh0ha.eot?#iefix') format('embedded-opentype'),
-        url('//at.alicdn.com/t/font_1088790_vqdeypgh0ha.woff2') format('woff2'),
-        url('//at.alicdn.com/t/font_1088790_vqdeypgh0ha.woff') format('woff'),
-        url('//at.alicdn.com/t/font_1088790_vqdeypgh0ha.ttf') format('truetype'),
-        url('//at.alicdn.com/t/font_1088790_vqdeypgh0ha.svg#iconfont') format('svg');
+    src: url('//at.alicdn.com/t/font_1088790_o39d2bezqc.eot');
+    src: url('//at.alicdn.com/t/font_1088790_o39d2bezqc.eot?#iefix') format('embedded-opentype'),
+        url('//at.alicdn.com/t/font_1088790_o39d2bezqc.woff2') format('woff2'),
+        url('//at.alicdn.com/t/font_1088790_o39d2bezqc.woff') format('woff'),
+        url('//at.alicdn.com/t/font_1088790_o39d2bezqc.ttf') format('truetype'),
+        url('//at.alicdn.com/t/font_1088790_o39d2bezqc.svg#iconfont') format('svg');
 }
 @font-face {
     font-family: "Museo";
@@ -74,6 +74,7 @@ input[type='file'] {
 }
 
 .iconfont {
+    display: inline-block;
     font-family: "iconfont" !important;
     font-size: 16px;
     font-style: normal;
@@ -145,6 +146,17 @@ input[type='file'] {
     .rc-calendar-time-picker-btn {
         color: @warn;
     }
+}
+
+.rc-switch {
+    width: 58px;
+}
+.rc-switch-checked:after {
+    left: 36px;
+}
+.rc-switch-checked {
+    border-color: @warn;
+    background-color: @warn;
 }
 
 .styled-calendar(@style, @style-bkg) {
