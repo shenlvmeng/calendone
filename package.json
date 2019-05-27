@@ -25,7 +25,9 @@
             "output": "build",
             "app": "dist"
         },
-        "linux": {},
+        "linux": {
+            "target": "AppImage"
+        },
         "mac": {
             "target": "dmg",
             "icon": "icon.icns",
