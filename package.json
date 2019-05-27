@@ -52,6 +52,7 @@
         "start": "yarn dev",
         "pack": "electron-builder --dir",
         "dist": "electron-builder",
+        "release": "yarn build && yarn dist",
         "draft": "electron-builder -p always --draft --mac --win --linux --ia32 --x64",
         "postinstall": "electron-builder install-app-deps"
     },
