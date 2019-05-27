@@ -14,9 +14,14 @@ module.exports = merge({
         }),
         new CopyWebpackPlugin([
             {
-              from: './src/renderer/assets/*',
-              to: '../',
-              flatten: true
+                from: './src/renderer/assets/*',
+                to: '../',
+                flatten: true
+            },
+            {
+                from: './src/package.json',
+                to: '../',
+                flatten: true
             }
         ])
     ],

@@ -1,0 +1,10 @@
+{
+    "name": "Calendone",
+    "version": "1.0.0",
+    "main": "main/index.js",
+    "description": "A calendar app for your daily record and objective management.",
+    "author": {
+        "email": "xin_yuanming@163.com",
+        "name": "shenlvmeng"
+    }
+}
