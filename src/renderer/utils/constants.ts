@@ -42,3 +42,4 @@ export const moodsCategory = {
 
 export const userNameStorageKey = "_calendone_user_name";
 export const userAvatarStorageKey = "_calendone_user_avatar";
+export const hasSetNameStorageKey = "_calendone_has_set_name";

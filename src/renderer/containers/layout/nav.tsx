@@ -4,9 +4,14 @@ import { Link } from "react-router-dom";
 import classNames from "classnames";
 
 import Icon from "@/components/icon";
+import { openLink } from "@/utils";
 
 interface IProps {
     location: Location<{}>;
+}
+
+function openGithub() {
+    openLink("https://github.com/shenlvmeng/calendone");
 }
 
 const Nav: React.FunctionComponent<IProps> = (props: IProps) => {
@@ -92,6 +97,11 @@ const Nav: React.FunctionComponent<IProps> = (props: IProps) => {
                         </Link>
                     )}
                 </div>
+            </section>
+            <section className="github-part">
+                <span onClick={openGithub}>
+                    <Icon type="github" />
+                </span>
             </section>
         </div>
     );

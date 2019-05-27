@@ -7,3 +7,4 @@ declare module "rc-tabs/lib/*";
 declare module "rc-notification";
 
 declare module "rc-switch";
+declare module "rc-drawer";

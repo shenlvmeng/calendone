@@ -1,7 +1,6 @@
 {
     "name": "calendone",
-    "productName": "Calendone",
-    "version": "0.1.0",
+    "version": "1.0.0",
     "description": "A calendar app for your daily record and objective management.",
     "main": "index.js",
     "license": "MIT",
@@ -16,23 +15,20 @@
     },
     "homepage": "https://github.com/shenlvmeng/calendone",
     "build": {
+        "productName": "Calendone",
         "appId": "com.example.calendone",
         "files": [
-            "!build",
-            "!src",
-            "!docs",
-            "!tsconfig.json",
-            "!dev-app-update.yml",
-            "!README.md",
-            "!LICENSE",
-            "!globals.d.ts"
+            "**/*"
         ],
-        "linux": {
-            "target": [
-                "tar.gz"
-            ]
+        "directories": {
+            "buildResources": "dist",
+            "output": "build",
+            "app": "dist"
         },
+        "linux": {},
         "mac": {
+            "target": "dmg",
+            "icon": "icon.icns",
             "category": "public.app-category.lifestyle"
         },
         "publish": {
@@ -41,10 +37,8 @@
             "repo": "calendone"
         },
         "win": {
-            "target": [
-                "zip",
-                "nsis"
-            ]
+            "target": "portable",
+            "icon": "icon.ico"
         }
     },
     "scripts": {
@@ -55,8 +49,9 @@
         "format": "prettier --write **/*.ts && tslint -p . --fix",
         "dev": "cross-env NODE_ENV=development yarn build-main && (yarn dev-server | electron ./dist/main)",
         "dev-server": "cross-env NODE_ENV=development webpack-dev-server --mode=development --config config/dev/webpack.renderer.config --hot --inline",
+        "start": "yarn dev",
         "pack": "electron-builder --dir",
-        "dist": "electron-builder --mac --win --linux --ia32 --x64",
+        "dist": "electron-builder",
         "draft": "electron-builder -p always --draft --mac --win --linux --ia32 --x64",
         "postinstall": "electron-builder install-app-deps"
     },
@@ -106,6 +101,7 @@
         "@types/sqlite3": "^3.1.3",
         "babel-loader": "^8.0.4",
         "classnames": "^2.2.6",
+        "copy-webpack-plugin": "^5.0.3",
         "cross-env": "^5.2.0",
         "css-loader": "^1.0.1",
         "electron-builder": "^20.38.2",

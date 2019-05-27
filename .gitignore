@@ -2,6 +2,7 @@
 
 # compiled output
 /dist
+/build
 /docs
 
 # Runtime data

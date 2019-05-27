@@ -2,6 +2,7 @@ import moment from "moment";
 import groupBy from "lodash/groupBy";
 
 import { moodsCategory } from "@/utils/constants";
+import { openExternalLink } from "../../main/utils";
 
 export const noop = () => {};
 export const isUndefined = (value: any) => value === void 0;
@@ -66,3 +67,5 @@ export const sortMood = (moods: number[]) => {
     }
     return resultArr.sort((a, b) => b.count - a.count).filter(mood => +mood.value);
 };
+
+export const openLink = (url: string) => openExternalLink(url);
