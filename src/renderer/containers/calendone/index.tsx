@@ -13,7 +13,7 @@ import { StoreContext } from "@/store";
 import { getEventsBetween, updateCertainDay } from "@/services/calendone";
 import { IEvent } from "@/services/db";
 import { noop } from "@/utils";
-import { moods, hasSetNameStorageKey } from "@/utils/constants";
+import { moods, hasSetNameStorageKey, userNameStorageKey } from "@/utils/constants";
 import Button from "@/components/button";
 import DayDetail from "./day";
 import "./index.less";
@@ -73,7 +73,7 @@ class Calendone extends Component<RouteComponentProps<{}>, IState> {
         days: [],
         now: moment(),
         currIndex: -1,
-        hasSetName: !!localStorage.getItem(hasSetNameStorageKey),
+        hasSetName: !!localStorage.getItem(userNameStorageKey) || !!localStorage.getItem(hasSetNameStorageKey),
         userName: ""
     };
 
