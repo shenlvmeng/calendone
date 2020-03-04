@@ -30,6 +30,12 @@
         transition: box-shadow .3s;
         &:hover {
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            .track-delete {
+                display: inherit;
+            }
+            .stage-dot {
+                display: none;
+            }
         }
         h3 {
             display: -webkit-box;
@@ -43,7 +49,7 @@
             word-break: break-all;
         }
     }
-    .track-event-id, .stage-dot {
+    .track-event-id, .stage-dot, .track-delete {
         position: absolute;
         right: 20px;
     }
@@ -63,6 +69,16 @@
         }
         &.done {
             background-color: @info;
+        }
+    }
+    .track-delete {
+        display: none;
+        top: 20px;
+        font-size: 12px;
+        color: @red-dot;
+        cursor: pointer;
+        &:hover {
+            opacity: 0.8;
         }
     }
     .track-event-date {

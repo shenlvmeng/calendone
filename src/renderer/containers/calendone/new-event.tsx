@@ -93,12 +93,11 @@ class NewEvent extends Component<IProps, IState> {
                         placeholder="输入20字以内的简介"
                         maxLength={20}
                         value={content}
-                        onKeyUp={this.handlePressEnter}
                         onChange={this.handleContentChange}
                     />
                     <div className="shift-btns">
                         <Button onClick={this.handlePrev}>上一步</Button>
-                        <Button type="info" onClick={this.handleNew} disabled={!content}>
+                        <Button type="info" onClick={this.handleNew} disabled={!content.trim()}>
                             {this.props.step ? "确 认" : "添 加"}
                         </Button>
                     </div>
@@ -146,7 +145,6 @@ class NewEvent extends Component<IProps, IState> {
                         placeholder="今天有什么进展?"
                         maxLength={20}
                         value={trackContent}
-                        onKeyUp={this.handlePressEnter}
                         onChange={this.handleTrackContentChange}
                     />
                     <div className="shift-btns">
@@ -166,12 +164,11 @@ class NewEvent extends Component<IProps, IState> {
                     type="text"
                     placeholder="输入20字以内的简介"
                     maxLength={20}
-                    onKeyUp={this.handlePressEnter}
                     onChange={this.handleContentChange}
                 />
                 <div className="shift-btns">
                     <Button onClick={this.handlePrev}>上一步</Button>
-                    <Button type="info" onClick={this.handleNew} disabled={!content}>
+                    <Button type="info" onClick={this.handleNew} disabled={!content.trim()}>
                         {this.props.step ? "确 认" : "添 加"}
                     </Button>
                 </div>
@@ -233,13 +230,13 @@ class NewEvent extends Component<IProps, IState> {
 
     private handleContentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({
-            content: e.currentTarget.value.trim()
+            content: e.currentTarget.value
         });
     };
 
     private handleTrackContentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({
-            trackContent: e.currentTarget.value.trim()
+            trackContent: e.currentTarget.value
         });
     };
 
@@ -281,27 +278,13 @@ class NewEvent extends Component<IProps, IState> {
         );
     };
 
-    private handlePressEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        const key = e.key;
-        if (key === "Enter") {
-            const { step } = this.state;
-            if (step < 2) {
-                this.handleNew();
-            } else if (step > 2) {
-                this.handleAddTrack();
-            } else {
-                this.state.fromExist ? this.handleNext() : this.handleNew();
-            }
-        }
-    };
-
     private handleNew = async () => {
         const { content, isTracking } = this.state;
-        if (!content) {
+        if (!content || !content.trim()) {
             return;
         }
         if (isTracking) {
-            const id = await addTrackEvent(content, this.props.currDate);
+            const id = await addTrackEvent(content.trim(), this.props.currDate);
             this.props.onFinish({
                 isTracking: true,
                 trackId: `${id}`,
@@ -309,7 +292,7 @@ class NewEvent extends Component<IProps, IState> {
             });
         } else {
             this.props.onFinish({
-                content,
+                content: content.trim(),
                 isTracking: false
             });
         }
@@ -326,7 +309,7 @@ class NewEvent extends Component<IProps, IState> {
                 trackTitle,
                 trackStage,
                 isTracking: true,
-                content: trackContent
+                content: trackContent.trim()
             });
         }
     };

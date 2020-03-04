@@ -24,7 +24,6 @@ const firstWeekday =
     moment()
         .startOf("year")
         .day() - 1;
-const currentDays = moment().dayOfYear();
 const totalDays = moment().isLeapYear() ? 366 : 365;
 const startDay = +moment()
     .startOf("year")
@@ -38,6 +37,7 @@ class YearStats extends Component<{}, IState> {
         realizedGoals: -1,
         currMoods: []
     };
+    public currentDays = moment().dayOfYear();
 
     public componentDidMount() {
         // events
@@ -137,7 +137,7 @@ class YearStats extends Component<{}, IState> {
                                             <div
                                                 className={classNames("moods-day", {
                                                     invisible: index < firstWeekday || index > totalDays + firstWeekday,
-                                                    after: index > currentDays,
+                                                    after: index - 1 > this.currentDays,
                                                     happy: mapMood(currMood) === moodsCategory.happy,
                                                     neutral: mapMood(currMood) === moodsCategory.neutral,
                                                     unhappy: mapMood(currMood) === moodsCategory.unhappy,

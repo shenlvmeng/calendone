@@ -4,8 +4,9 @@ import moment from "moment";
 import Switch from "rc-switch";
 
 import { ITrackEvent, TrackStage } from "@/services/db";
-import { getTrackEvents } from "@/services/calendone";
+import { getTrackEvents, updateTrackEventStatus } from "@/services/calendone";
 import Icon from "@/components/icon";
+import confirm from "@/components/confirm";
 
 import "rc-switch/assets/index.css";
 import "./index.less";
@@ -30,6 +31,18 @@ const TrackEvents: React.FunctionComponent<{}> = () => {
         [setSeeActive]
     );
 
+    const handleDelete = (id: number) => {
+        confirm({
+            title: "删除",
+            message: "当前跟踪事项将被删除，是否继续",
+            closable: true,
+            onConfirm: async () => {
+                await updateTrackEventStatus(id, 4, Date.now());
+                setEvents(events.filter(e => e.id !== id));
+            }
+        });
+    };
+
     let renderedEvents: ITrackEvent[] = events;
     if (onlySeeActive) {
         renderedEvents = renderedEvents.filter(event => event.stage === TrackStage.Doing);
@@ -43,7 +56,7 @@ const TrackEvents: React.FunctionComponent<{}> = () => {
             {renderedEvents.length ? (
                 <article className="track-events">
                     {renderedEvents.map(event => (
-                        <div className="track-event-item">
+                        <div className="track-event-item" key={event.id}>
                             <div className="track-event-id">#{event.id}</div>
                             <div
                                 className={classNames("stage-dot", {
@@ -51,6 +64,9 @@ const TrackEvents: React.FunctionComponent<{}> = () => {
                                     done: event.stage === TrackStage.Done
                                 })}
                             />
+                            <div className="track-delete" onClick={() => handleDelete(event.id!)}>
+                                删除
+                            </div>
                             <div className="track-event-content">
                                 <h3>{event.name}</h3>
                                 <div className="track-event-date">

@@ -32,7 +32,8 @@ export const currMonth = () => {
 export const lastMonth = () => {
     const m = moment();
     m.subtract(1, "month");
-    return [+m.startOf("month"), +m.endOf("month")];
+    const lastMonthNow = +m;
+    return [+m.startOf("month"), lastMonthNow];
 };
 
 export const currYear = () => {
