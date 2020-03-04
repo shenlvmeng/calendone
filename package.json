@@ -1,6 +1,6 @@
 {
     "name": "calendone",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "description": "A calendar app for your daily record and objective management.",
     "main": "index.js",
     "license": "MIT",

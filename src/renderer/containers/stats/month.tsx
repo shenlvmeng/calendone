@@ -26,13 +26,6 @@ interface IState {
     }[];
 }
 
-const daysInMonth = moment().daysInMonth();
-const firstWeekday =
-    moment()
-        .startOf("month")
-        .day() - 1;
-const weeks = ~~((daysInMonth + firstWeekday) / 7) + 1;
-
 function safeAbs(num: string) {
     return +num < 0 ? Math.abs(+num) : num;
 }
@@ -45,6 +38,14 @@ class MonthStats extends Component<{}, IState> {
         realizedGoals: null,
         currMoods: []
     };
+    public daysInMonth = moment().daysInMonth();
+    public firstWeekday =
+        moment()
+            .startOf("month")
+            .day() - 1;
+    // 需要在前方填充天数，补足一周，方便计算周数
+    public paddingDays = this.firstWeekday > 0 ? this.firstWeekday - 1 : 6;
+    public weeks = ~~((this.daysInMonth + this.paddingDays) / 7) + 1;
 
     public componentDidMount() {
         // events
@@ -106,7 +107,7 @@ class MonthStats extends Component<{}, IState> {
         const { commonEvents, trackEvents, goals, realizedGoals, currMoods } = this.state;
         const pureMoods = currMoods.map(mood => mood.mood);
         const firstDay = moment().startOf("month");
-        firstDay.subtract(firstWeekday, "days");
+        firstDay.subtract(this.firstWeekday > 0 ? this.firstWeekday - 1 : 6, "days");
         return (
             <div className="stats-common-content month-stats">
                 <section className="indicators">
@@ -184,7 +185,7 @@ class MonthStats extends Component<{}, IState> {
                                 <span>Sat</span>
                                 <span>Sun</span>
                             </div>
-                            {Array(weeks)
+                            {Array(this.weeks)
                                 .fill("")
                                 .map((_, yIndex) => (
                                     <div className="moods-week" key={yIndex}>
@@ -198,8 +199,10 @@ class MonthStats extends Component<{}, IState> {
                                                     <div
                                                         className={classNames("moods-day", {
                                                             invisible:
-                                                                7 * yIndex + xIndex < firstWeekday ||
-                                                                7 * yIndex + xIndex >= daysInMonth + firstWeekday,
+                                                                7 * yIndex + xIndex < this.paddingDays ||
+                                                                // tslint:disable-next-line:max-line-length
+                                                                7 * yIndex + xIndex >=
+                                                                    this.daysInMonth + this.paddingDays,
                                                             happy: mapMood(currMood) === moodsCategory.happy,
                                                             neutral: mapMood(currMood) === moodsCategory.neutral,
                                                             unhappy: mapMood(currMood) === moodsCategory.unhappy,

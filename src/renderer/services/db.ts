@@ -35,7 +35,8 @@ export const enum TrackStage {
     Unknown = 0,
     Doing = 1,
     Done = 2,
-    Abandon = 3
+    Abandon = 3,
+    Deleted = 4
 }
 
 const enum Mood {

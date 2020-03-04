@@ -1,6 +1,6 @@
 {
     "name": "Calendone",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "main": "main/index.js",
     "description": "A calendar app for your daily record and objective management.",
     "author": {

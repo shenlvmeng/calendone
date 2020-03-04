@@ -28,6 +28,7 @@
         "jsx-no-string-ref": true,
         "jsx-self-close": true,
         "jsx-wrap-multiline": true,
+        "jsx-no-lambda": false,
         "import-name": false,
         "no-console": {
             "severity": "warn",

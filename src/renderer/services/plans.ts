@@ -93,7 +93,7 @@ function plansInBound(start: number, end: number, done: boolean) {
                     if (done) {
                         return plan.stage === 2 && plan.update_time >= start && plan.update_time <= end;
                     }
-                    return plan.stage === 1 && plan.deadline >= start && plan.deadline <= end;
+                    return [1, 2].indexOf(plan.stage) !== -1 && plan.start_time >= start && plan.start_time <= end;
                 })
                 .count(resolve);
         } catch (err) {
