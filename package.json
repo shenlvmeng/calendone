@@ -75,7 +75,7 @@
         "electron-devtools-installer": "^2.2.4",
         "electron-is-dev": "^1.0.1",
         "electron-updater": "^4.0.5",
-        "moment": "^2.24.0",
+        "moment": "^2.29.2",
         "rc-calendar": "^9.12.4",
         "rc-dialog": "^7.3.1",
         "rc-drawer": "^1.7.7",
