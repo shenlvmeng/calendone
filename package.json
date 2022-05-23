@@ -70,7 +70,7 @@
         }
     },
     "dependencies": {
-        "dexie": "^2.0.4",
+        "dexie": "^3.2.2",
         "electron": "^4.0.2",
         "electron-devtools-installer": "^2.2.4",
         "electron-is-dev": "^1.0.1",
